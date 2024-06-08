@@ -1,5 +1,10 @@
 import { createApp } from 'vue'
-import './style.css'
+import './assets/style.scss'
 import App from './App.vue'
+import {router} from "@/router.ts";
+import PrimeVue from 'primevue/config';
 
-createApp(App).mount('#app')
+createApp(App)
+  .use(router)
+  .use(PrimeVue)
+  .mount('#app')
