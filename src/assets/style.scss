@@ -28,8 +28,31 @@ button {
   cursor: pointer;
 }
 
+.button-pink {
+  width: 100%;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-weight: 700;
+  background: #B282FA;
+  border-radius: 12px;
+}
+
 .p-tooltip-text {
   padding: 5px;
   display: block;
   font-size: 10px;
+}
+.p-progressbar {
+  background: #090327;
+  border: 0.5px solid #9C9E9B;
+  height: 8px;
+  border-radius: 12px;
+
+  .p-progressbar-value {
+    background: #B282FA;
+  }
 }

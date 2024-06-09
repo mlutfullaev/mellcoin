@@ -41,6 +41,8 @@ footer {
   align-items: center;
   text-align: center;
   grid-template-columns: repeat(5, 1fr);
+  max-width: 486px;
+  margin: 0 auto;
 
   a {
     font-size: 8px;

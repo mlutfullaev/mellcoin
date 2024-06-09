@@ -8,6 +8,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('primevue/button')['default']
+    CircleImage: typeof import('./src/components/CircleImage.vue')['default']
+    CoinQuantity: typeof import('./src/components/CoinQuantity.vue')['default']
+    ProgressBar: typeof import('primevue/progressbar')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SplitButton: typeof import('primevue/splitbutton')['default']
