@@ -1,10 +1,10 @@
 <script lang="ts" setup="">
-
+import UserStatistics from "@/layouts/UserStatistics.vue";
 </script>
 
 <template>
- <div>
-
+ <div class="main-page">
+   <UserStatistics />
  </div>
 </template>
 
