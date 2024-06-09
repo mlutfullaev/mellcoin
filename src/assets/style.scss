@@ -1,3 +1,24 @@
+@import "./fonts";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Gilroy', sans-serif;
+}
+
 body {
+  color: #fff;
   background: #090327;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
