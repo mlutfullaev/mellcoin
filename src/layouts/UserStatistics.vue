@@ -1,5 +1,6 @@
 <script lang="ts" setup="">
 
+import Hint from "@/components/Hint.vue";
 </script>
 
 <template>
@@ -15,18 +16,7 @@
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/hours.svg" alt="icon">
       <p><span>+3</span>/tap</p>
-      <div class="hint">
-        <i v-tooltip.left="{
-        value: 'This is tap',
-        pt: {
-          arrow: {
-            style: {
-              display: 'none'
-            }
-          }
-        }
-      }" class="pi pi-info"></i>
-      </div>
+      <Hint text="This is tap" />
     </div>
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/level-up.svg" alt="level-up">

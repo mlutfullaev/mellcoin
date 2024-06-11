@@ -20,7 +20,7 @@
       <img src="@/assets/icons/footer/earning.svg" alt="earning">
       Earn
     </RouterLink>
-    <RouterLink to="/roadmap">
+    <RouterLink to="/levels">
       <img src="@/assets/icons/footer/airdrop.svg" alt="airdrop">
       RoadMap
     </RouterLink>

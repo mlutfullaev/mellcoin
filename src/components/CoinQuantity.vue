@@ -1,18 +1,15 @@
 <script lang="ts" setup="">
-import {computed} from "vue";
+import {formatCoin} from "../assets/helpers.ts";
 
-const props = defineProps<{
+defineProps<{
   value: number
 }>()
-const formattedValue = computed(() => {
-  return props.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-})
 </script>
 
 <template>
 <div class="coin-quantity">
   <img src="@/assets/icons/bitcoin.svg" alt="coin">
-  <h1>{{ formattedValue }}</h1>
+  <h1>{{ formatCoin(value) }}</h1>
 </div>
 </template>
 

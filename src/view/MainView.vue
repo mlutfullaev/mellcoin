@@ -3,13 +3,16 @@ import UserStatistics from "@/layouts/UserStatistics.vue";
 import CircleImage from "@/components/CircleImage.vue";
 import MainImage from '@/assets/img/main-circle.gif'
 import CoinQuantity from "@/components/CoinQuantity.vue";
+import {useUserStore} from "@/store/userStore.ts";
+
+const userStore = useUserStore();
 </script>
 
 <template>
 <UserStatistics />
 <div class="main-page">
   <div class="level">
-    <RouterLink to="/">
+    <RouterLink to="/levels">
       Gold <i class="pi pi-arrow-right"></i>
     </RouterLink>
     <p><span>Level </span>3/10</p>
@@ -17,7 +20,7 @@ import CoinQuantity from "@/components/CoinQuantity.vue";
   <ProgressBar :showValue="false" :value="50" />
   <div class="content">
     <CircleImage :image="MainImage" :size="300" second-color="#26154A" first-color="#090327" />
-    <CoinQuantity :value="27317" />
+    <CoinQuantity :value="userStore.user.coin" />
     <button class="button-pink">
       <img src="@/assets/icons/shuttle.svg" alt="shuttle">
       Boost
