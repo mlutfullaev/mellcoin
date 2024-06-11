@@ -1,15 +1,14 @@
 <script lang="ts" setup="">
 import {formatCoin} from "../assets/helpers.ts";
+import {useUserStore} from "@/store/userStore.ts";
 
-defineProps<{
-  value: number
-}>()
+const userStore = useUserStore();
 </script>
 
 <template>
 <div class="coin-quantity">
   <img src="@/assets/icons/bitcoin.svg" alt="coin">
-  <h1>{{ formatCoin(value) }}</h1>
+  <h1>{{ formatCoin(userStore.user.coin) }}</h1>
 </div>
 </template>
 

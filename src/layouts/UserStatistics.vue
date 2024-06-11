@@ -58,7 +58,8 @@ import Hint from "@/components/Hint.vue";
       gap: 8px;
       border-radius: 100px;
       background: #26154A;
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
 
       p {
@@ -69,21 +70,6 @@ import Hint from "@/components/Hint.vue";
         span {
           font-weight: 700;
           color: #fff;
-        }
-      }
-      .hint {
-        margin-left: auto;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: #9C9E9B;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        i {
-          color: #222;
-          font-size: 8px;
         }
       }
     }

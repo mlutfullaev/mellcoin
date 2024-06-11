@@ -11,52 +11,19 @@ defineProps<{
 </script>
 
 <template>
- <div class="level-task">
-   <div class="level-task-img" :style="{ backgroundImage: `url('${img}')` }"></div>
-   <div class="level-task-body">
-     <p class="level-task-name">{{ title }}</p>
-     <p class="level-task-prize"><img src="@/assets/icons/bitcoin.svg" alt="coin">{{ formatCoin(prize) }}</p>
+ <div class="small-card">
+   <div class="small-card-img" :style="{ backgroundImage: `url('${img}')` }"></div>
+   <div class="small-card-body">
+     <p class="subtitle small-card-name">{{ title }}</p>
+     <p class="subtitle bold small-card-prize"><img src="@/assets/icons/bitcoin.svg" alt="coin">{{ formatCoin(prize) }}</p>
    </div>
    <img v-if="completed" src="@/assets/icons/completed.svg" alt="completed">
-   <p v-else class="level-task-queue">{{queue}}</p>
+   <p v-else class="small-card-queue">{{queue}}</p>
  </div>
 </template>
 
 <style lang="scss" scoped>
-.level-task {
-  background: #26154A;
-  padding: 8px;
-  border-radius: 8px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 20px;
-  align-items: center;
-
-  &-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-  &-name {
-    font-size: 12px;
-    font-weight: 400;
-    padding-bottom: 5px;
-  }
-  &-prize {
-    font-size: 12px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-
-    img {
-      padding-right: 10px;
-      width: 22px;
-    }
-  }
+.small-card {
   &-queue {
     font-size: 24px;
     font-weight: 700;

@@ -65,7 +65,7 @@ const formatNumber = (num: number) => {
    </div>
     <p v-else>frome {{ formatNumber(levels[currentLevel].from) }}</p>
    <div class="assignments">
-     <h2 class="assignments-title">Level Assignments</h2>
+     <h2 class="title assignments-title">Level Assignments</h2>
      <LevelTask
        v-for="(task, i) in levels[currentLevel].tasks"
        :key="task.id"
@@ -109,9 +109,6 @@ const formatNumber = (num: number) => {
     grid-row-gap: 8px;
 
     &-title {
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 19.81px;
       padding-bottom: 4px;
     }
   }

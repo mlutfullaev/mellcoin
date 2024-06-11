@@ -57,6 +57,56 @@ button {
   }
 }
 
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19.81px;
+  text-align: left;
+  color: #fff;
+}
+
+.subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14.4px;
+}
+
+.small-card {
+  background: #26154A;
+  padding: 8px;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+
+  &-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  &-name {
+    padding-bottom: 5px;
+  }
+  &-prize {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    img {
+      padding-right: 10px;
+      width: 22px;
+    }
+  }
+  i {
+    padding-right: 10px;
+  }
+}
+
 .bold {
   font-weight: 700
 }
