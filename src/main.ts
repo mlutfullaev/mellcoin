@@ -4,7 +4,7 @@ import {router} from "@/router.ts";
 import PrimeVue from 'primevue/config';
 import 'primevue/resources/themes/aura-light-green/theme.css'
 import 'primeicons/primeicons.css'
-import './assets/style.scss'
+import './assets/styles/index.scss'
 import {createPinia} from "pinia";
 import Tooltip from 'primevue/tooltip';
 

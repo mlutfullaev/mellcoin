@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "./fonts";
+@import "fonts";
+@import "primevue";
 
 * {
   margin: 0;
@@ -42,54 +43,6 @@ button {
   font-weight: 700;
   background: #B282FA;
   border-radius: 12px;
-}
-
-.p-tooltip-text {
-  padding: 5px;
-  display: block;
-  font-size: 10px;
-}
-.p-progressbar {
-  background: #090327;
-  border: 0.5px solid #9C9E9B;
-  height: 8px;
-  border-radius: 12px;
-
-  .p-progressbar-value {
-    background: #B282FA;
-  }
-}
-.p-sidebar {
-  box-shadow: 0px -12px 20px 0px #B686FF1F;
-  background: #170327;
-  padding: 16px;
-  color: #fff;
-  border: none;
-  text-align: center;
-
-  &-close {
-    margin-left: auto;
-    color: #fff;
-    outline-color: #B282FA;
-  }
-
-  .coin-quantity {
-    margin-bottom: 10px;
-
-    h1 {
-      font-size: 32px;
-    }
-  }
-
-  .modal-hint {
-    color: #FAFAFA;
-    font-size: 12px;
-    padding: 12px 24px;
-    width: 100%;
-    background: #090327;
-    border-radius: 8px;
-    margin: 10px 0
-  }
 }
 
 .pink-content {
@@ -149,7 +102,7 @@ button {
     gap: 5px;
 
     img {
-      padding-right: 10px;
+      padding-right: 5px;
       width: 22px;
     }
   }
