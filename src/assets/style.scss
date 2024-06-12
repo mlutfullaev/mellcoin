@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import "./fonts";
 
 * {
@@ -28,7 +31,7 @@ button {
   cursor: pointer;
 }
 
-.button-pink {
+.btn {
   width: 100%;
   padding: 12px 20px;
   display: flex;
@@ -56,6 +59,45 @@ button {
     background: #B282FA;
   }
 }
+.p-sidebar {
+  box-shadow: 0px -12px 20px 0px #B686FF1F;
+  background: #170327;
+  padding: 16px;
+  color: #fff;
+  border: none;
+  text-align: center;
+
+  &-close {
+    margin-left: auto;
+    color: #fff;
+    outline-color: #B282FA;
+  }
+
+  .coin-quantity {
+    margin-bottom: 10px;
+
+    h1 {
+      font-size: 32px;
+    }
+  }
+
+  .modal-hint {
+    color: #FAFAFA;
+    font-size: 12px;
+    padding: 12px 24px;
+    width: 100%;
+    background: #090327;
+    border-radius: 8px;
+    margin: 10px 0
+  }
+}
+
+.pink-content {
+  box-shadow: 0 -12px 20px 0 #B686FF1F;
+  background: #170327;
+  border-radius: 20px 20px 0 0;
+  padding: 16px;
+}
 
 .title {
   font-size: 16px;
@@ -63,6 +105,15 @@ button {
   line-height: 19.81px;
   text-align: left;
   color: #fff;
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 29.71px;
+  text-align: center;
+  color: #fff;
+  padding-bottom: 5px;
 }
 
 .subtitle {

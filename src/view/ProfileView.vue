@@ -1,6 +1,13 @@
 <script lang="ts" setup="">
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import Hint from "@/components/Hint.vue";
+import {ref} from "vue";
+import multiTapImg from "@/assets/img/multiTapBig.png";
+import energyImg from "@/assets/img/energyBig.png";
+import CircleImage from "@/components/CircleImage.vue";
+
+const multiTapModal = ref(false)
+const energyModal = ref(false)
 </script>
 
 <template>
@@ -23,7 +30,7 @@ import Hint from "@/components/Hint.vue";
    </div>
    <h2 class="title">Boosters</h2>
    <div class="boosters">
-     <div class="small-card">
+     <div class="small-card" @click="multiTapModal = true">
        <img class="small-card-img" src="@/assets/img/multitap.png" alt="multitap">
        <div>
           <p class="subtitle small-card-name">Multitap</p>
@@ -35,8 +42,8 @@ import Hint from "@/components/Hint.vue";
        </div>
        <i class="pi pi-arrow-right"></i>
      </div>
-     <div class="small-card">
-       <img class="small-card-img" src="@/assets/img/energy.png" alt="energhy">
+     <div class="small-card" @click="energyModal = true">
+       <img class="small-card-img" src="@/assets/img/energy.png" alt="energy">
        <div>
           <p class="subtitle small-card-name">Energy Limit</p>
           <p class="subtitle bold small-card-prize">
@@ -49,6 +56,32 @@ import Hint from "@/components/Hint.vue";
      </div>
    </div>
  </div>
+  <Sidebar v-model:visible="multiTapModal" position="bottom" style="height: auto">
+    <h1 class="modal-title pb-2">Multitap</h1>
+    <p class="subtitle pb-4">Increase the amount of coins you can earn per tap</p>
+    <CircleImage
+      :image="multiTapImg"
+      :size="160"
+      first-color="#B282FA2A"
+      second-color="rgba(178, 130, 250, 0.1)"
+    />
+    <p class="modal-hint">+1 coin for tap for level 5</p>
+    <CoinQuantity :value="16000" :lvl="5" />
+    <button class="btn">Go ahead</button>
+  </Sidebar>
+  <Sidebar v-model:visible="energyModal" position="bottom" style="height: auto">
+    <h1 class="modal-title pb-2">Energy limit</h1>
+    <p class="subtitle pb-4">Increase the amount of energy</p>
+    <CircleImage
+      :image="energyImg"
+      :size="160"
+      first-color="#B282FA2A"
+      second-color="rgba(178, 130, 250, 0.1)"
+    />
+    <p class="modal-hint">+500 energy points for level 5</p>
+    <CoinQuantity :value="16000" :lvl="5" />
+    <button class="btn">Go ahead</button>
+  </Sidebar>
 </template>
 
 <style lang="scss" scoped>
@@ -80,8 +113,8 @@ import Hint from "@/components/Hint.vue";
       text-align: center;
 
       img {
+        margin: 0 auto 20px;
         width: 60px;
-        margin-bottom: 20px;
       }
       span {
         color: #9C9E9B;

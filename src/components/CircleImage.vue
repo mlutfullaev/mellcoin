@@ -9,12 +9,13 @@ defineProps<{
 
 <template>
  <div class="circle-image" :style="{width: size + 'px', height: size + 'px', backgroundColor: firstColor}">
-   <div :style="{
-     width: size - 20 + 'px',
-     height: size - 20 + 'px',
-     borderColor: secondColor,
-     backgroundImage: `url('${image}')`
-   }" />
+   <div :style="{width: size - 20 + 'px', height: size - 20 + 'px', backgroundColor: secondColor}">
+     <div :style="{
+       width: size - 40 + 'px',
+       height: size - 40 + 'px',
+       backgroundImage: `url('${image}')`
+     }" />
+   </div>
  </div>
 </template>
 
@@ -27,12 +28,17 @@ defineProps<{
   margin: 10px auto;
 
   > div {
-    border-width: 10px;
-    border-style: solid;
     border-radius: 50%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > div {
+      border-radius: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
   }
 }
 </style>

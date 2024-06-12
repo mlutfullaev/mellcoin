@@ -7,7 +7,7 @@ import CoinQuantity from "@/components/CoinQuantity.vue";
 
 <template>
 <UserStatistics />
-<div class="main-page">
+<div class="main-page pink-content">
   <div class="level">
     <RouterLink to="/levels">
       Gold <i class="pi pi-arrow-right"></i>
@@ -18,7 +18,7 @@ import CoinQuantity from "@/components/CoinQuantity.vue";
   <div class="content">
     <CircleImage :image="MainImage" :size="300" second-color="#26154A" first-color="#090327" />
     <CoinQuantity/>
-    <router-link to="/profile" class="button-pink">
+    <router-link to="/profile" class="btn">
       <img src="@/assets/icons/shuttle.svg" alt="shuttle">
       Boost
     </router-link>
@@ -28,11 +28,7 @@ import CoinQuantity from "@/components/CoinQuantity.vue";
 
 <style lang="scss" scoped>
 .main-page {
-  box-shadow: 0 -12px 20px 0 #B686FF1F;
-  background: #170327;
-  border-radius: 20px 20px 0 0;
-  padding: 16px;
-  height: calc(100vh - 160px);
+  padding: 16px 16px 80px;
 
   .level {
     display: flex;
