@@ -82,6 +82,7 @@ const formatNumber = (num: number) => {
 <style lang="scss" scoped>
 .levels-page {
   color: #fff;
+  padding: 0 16px;
 
   .top-slider {
     padding: 10px 20px;

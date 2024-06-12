@@ -76,6 +76,7 @@ button {
 }
 
 .small-card {
+  cursor: pointer;
   background: #26154A;
   padding: 8px;
   border-radius: 8px;
@@ -107,6 +108,7 @@ button {
     }
   }
   i {
+    color: #9C9E9B;
     padding-right: 10px;
   }
 }
