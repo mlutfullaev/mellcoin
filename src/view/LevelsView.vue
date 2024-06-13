@@ -58,14 +58,14 @@ const formatNumber = (num: number) => {
       icon="pi pi-arrow-right"
     />
   </div>
-   <h1 class="levels-title">{{levels[currentLevel].title}}</h1>
+   <h1 class="title pb-4">{{levels[currentLevel].title}}</h1>
    <div v-if="userLevel === currentLevel">
      <p class="bold">24.54K / 100K</p>
      <ProgressBar :showValue="false" :value="34" />
    </div>
     <p v-else>frome {{ formatNumber(levels[currentLevel].from) }}</p>
    <div class="assignments">
-     <h2 class="title assignments-title">Level Assignments</h2>
+     <h2 class="subtitle assignments-title">Level Assignments</h2>
      <LevelTask
        v-for="(task, i) in levels[currentLevel].tasks"
        :key="task.id"
@@ -90,13 +90,6 @@ const formatNumber = (num: number) => {
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-  }
-  .levels-title {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 29.71px;
-    text-align: center;
-    padding-bottom: 8px;
   }
   p {
     text-align: center;

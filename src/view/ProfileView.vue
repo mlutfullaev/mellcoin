@@ -12,29 +12,29 @@ const energyModal = ref(false)
 
 <template>
  <div class="profile-page">
-   <p class="balance subtitle">Your balance</p>
+   <p class="balance text">Your balance</p>
    <CoinQuantity />
-   <p class="how-works subtitle">How the improvement works <Hint text="it works simply" /></p>
-   <h2 class="title">Free daily boosters</h2>
+   <p class="how-works text">How the improvement works <Hint text="it works simply" /></p>
+   <h2 class="subtitle">Free daily boosters</h2>
    <div class="cards">
      <div class="cards-item">
        <img src="@/assets/icons/lightning.svg" alt="lighting">
-       <p class="bold subtitle">Full energy</p>
-       <span class="subtitle">5/6 available</span>
+       <p class="bold text">Full energy</p>
+       <span class="text">5/6 available</span>
      </div>
      <div class="cards-item">
        <img src="@/assets/icons/fire.svg" alt="fire">
-       <p class="subtitle bold">Turbo</p>
-       <span class="subtitle">Coming soon</span>
+       <p class="text bold">Turbo</p>
+       <span class="text">Coming soon</span>
      </div>
    </div>
-   <h2 class="title">Boosters</h2>
+   <h2 class="subtitle">Boosters</h2>
    <div class="boosters">
      <div class="small-card" @click="multiTapModal = true">
        <img class="small-card-img" src="@/assets/img/multitap.png" alt="multitap">
        <div>
-          <p class="subtitle small-card-name">Multitap</p>
-          <p class="subtitle bold small-card-prize">
+          <p class="text small-card-name">Multitap</p>
+          <p class="text bold small-card-prize">
             <img src="@/assets/icons/bitcoin.svg" alt="coin">
             16k
             <span>• 5 lvl</span>
@@ -45,8 +45,8 @@ const energyModal = ref(false)
      <div class="small-card" @click="energyModal = true">
        <img class="small-card-img" src="@/assets/img/energy.png" alt="energy">
        <div>
-          <p class="subtitle small-card-name">Energy Limit</p>
-          <p class="subtitle bold small-card-prize">
+          <p class="text small-card-name">Energy Limit</p>
+          <p class="text bold small-card-prize">
             <img src="@/assets/icons/bitcoin.svg" alt="coin">
             16k
             <span>• 5 lvl</span>
@@ -57,8 +57,8 @@ const energyModal = ref(false)
    </div>
  </div>
   <Sidebar v-model:visible="multiTapModal" position="bottom" style="height: auto">
-    <h1 class="modal-title pb-2">Multitap</h1>
-    <p class="subtitle pb-4">Increase the amount of coins you can earn per tap</p>
+    <h1 class="title pb-2">Multitap</h1>
+    <p class="text pb-4">Increase the amount of coins you can earn per tap</p>
     <CircleImage
       :image="multiTapImg"
       :size="160"
@@ -70,8 +70,8 @@ const energyModal = ref(false)
     <button class="btn">Go ahead</button>
   </Sidebar>
   <Sidebar v-model:visible="energyModal" position="bottom" style="height: auto">
-    <h1 class="modal-title pb-2">Energy limit</h1>
-    <p class="subtitle pb-4">Increase the amount of energy</p>
+    <h1 class="title pb-2">Energy limit</h1>
+    <p class="text pb-4">Increase the amount of energy</p>
     <CircleImage
       :image="energyImg"
       :size="160"

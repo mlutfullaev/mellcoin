@@ -24,7 +24,7 @@ const activeFreeze = ref<null | number>(null)
   <UserStatistics />
  <div class="mine-page pink-content">
    <CoinQuantity />
-   <p class="subtitle coin-time">00:50:00 <Hint text="This is hint" /></p>
+   <p class="text coin-time">00:50:00 <Hint text="This is hint" /></p>
    <TabMenu
      :model="tabMenu"
      @tabChange="(value: any) => activeMenu = value.index"
@@ -47,8 +47,8 @@ const activeFreeze = ref<null | number>(null)
       second-color="#26154A"
       first-color="#B282FA1A"
     />
-    <h1 class="modal-title pt-4 pb-2" v-if="activeFreeze !== null">{{freezing[activeFreeze].title}}</h1>
-    <p class="subtitle pb-4" v-if="activeFreeze !== null">Заморозить под {{freezing[activeFreeze].percent}}%</p>
+    <h1 class="title pt-4 pb-2" v-if="activeFreeze !== null">{{freezing[activeFreeze].title}}</h1>
+    <p class="text pb-4" v-if="activeFreeze !== null">Заморозить под {{freezing[activeFreeze].percent}}%</p>
     <input
       type="text"
       class="input my-4"

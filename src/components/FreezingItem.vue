@@ -14,9 +14,9 @@ defineEmits<{
   <div class="staking-card">
     <div class="staking-card-content">
       <img :src="freeze.img" alt="freezing">
-      <p class="subtitle bold">{{freeze.title}}</p>
+      <p class="text bold">{{freeze.title}}</p>
       <span class="grey">Freeze under</span>
-      <p class="subtitle bold pink">
+      <p class="text bold pink">
         <img src="@/assets/img/discount.png" alt="discount">
         {{freeze.percent}}%
       </p>
