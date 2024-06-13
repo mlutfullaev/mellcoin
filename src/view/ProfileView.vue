@@ -86,6 +86,8 @@ const energyModal = ref(false)
 
 <style lang="scss" scoped>
 .profile-page {
+  padding: 0 16px;
+
   .balance {
     text-align: center;
     color: #9C9E9B;

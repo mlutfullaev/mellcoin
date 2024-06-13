@@ -53,6 +53,7 @@
 
 <style lang="scss" scoped>
 .friends-page {
+  padding: 0 16px;
 
   .cards {
     padding: 20px 0;
