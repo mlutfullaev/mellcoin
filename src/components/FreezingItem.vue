@@ -17,7 +17,7 @@ defineEmits<{
       <p class="text bold">{{freeze.title}}</p>
       <span class="grey">Freeze under</span>
       <p class="text bold pink">
-        <img src="@/assets/img/discount.png" alt="discount">
+        <img src="@/assets/icons/discount.svg" alt="discount">
         {{freeze.percent}}%
       </p>
     </div>

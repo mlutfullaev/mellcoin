@@ -4,12 +4,14 @@ import LevelsView from "@/view/LevelsView.vue";
 import ProfileView from "./view/ProfileView.vue";
 import MineView from "./view/MineView.vue";
 import EarnView from "./view/EarnView.vue";
+import FriendsView from "@/view/FriendsView.vue";
 
 const routes = [
   { path: '/', component: MainView },
   { path: '/levels', component: LevelsView },
   { path: '/profile', component: ProfileView },
   { path: '/mine', component: MineView },
+  { path: '/friends', component: FriendsView },
   { path: '/earn', component: EarnView },
 ]
 
