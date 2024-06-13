@@ -4,9 +4,8 @@ import UserStatistics from "@/layouts/UserStatistics.vue";
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import Hint from "@/components/Hint.vue";
 import {ref} from "vue";
-import {freezing} from "@/assets/data.ts";
-import FreezingItem from "@/components/FreezingItem.vue";
-import CircleImage from "@/components/CircleImage.vue";
+import Staking from "@/components/Staking.vue";
+import Casino from "@/components/Casino.vue";
 
 const tabMenu = ref([
   { label: 'Staking' },
@@ -14,9 +13,6 @@ const tabMenu = ref([
   { label: 'Cards' },
 ])
 const activeMenu = ref(0)
-const freezeAmount = ref('')
-const freezeModal = ref(false)
-const activeFreeze = ref<null | number>(null)
 
 </script>
 
@@ -29,34 +25,17 @@ const activeFreeze = ref<null | number>(null)
      :model="tabMenu"
      @tabChange="(value: any) => activeMenu = value.index"
    />
-   <div class="staking" v-if="tabMenu[activeMenu].label === 'Staking'">
-     <FreezingItem
-       v-for="(freeze, i) in freezing"
-       :key="freeze.id"
-       :freeze="freeze"
-       :index="i"
-       @onFreeze="(index: number) => {activeFreeze = index; freezeModal = true}"
-     />
+   <Staking v-if="tabMenu[activeMenu].label === 'Staking'" />
+   <div class="cards" v-if="tabMenu[activeMenu].label === 'Cards'">
+     <div class="cards-item">
+       <img src="@/assets/img/gift.png" alt="gift">
+       <h2 class="subtitle mb-3">Map of the day</h2>
+       <p class="text mb-2">Open the gift and get one of the many prizes!</p>
+       <button class="btn">Open</button>
+     </div>
    </div>
+   <Casino v-if="tabMenu[activeMenu].label === 'Casino'" />
  </div>
-  <Sidebar v-model:visible="freezeModal" position="bottom" style="height: auto">
-    <CircleImage
-      v-if="activeFreeze !== null"
-      :image="freezing[activeFreeze].img"
-      :size="160"
-      second-color="#26154A"
-      first-color="#B282FA1A"
-    />
-    <h1 class="title pt-4 pb-2" v-if="activeFreeze !== null">{{freezing[activeFreeze].title}}</h1>
-    <p class="text pb-4" v-if="activeFreeze !== null">Заморозить под {{freezing[activeFreeze].percent}}%</p>
-    <input
-      type="text"
-      class="input my-4"
-      v-model="freezeAmount"
-      placeholder="Enter the amount to freeze"
-    >
-    <button @click=" freezeModal = false" class="btn">Activate</button>
-  </Sidebar>
 </template>
 
 <style lang="scss" scoped>
@@ -69,11 +48,26 @@ const activeFreeze = ref<null | number>(null)
     justify-content: right;
     padding: 5px 0 10px
   }
-  .staking {
+  .cards {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 8px;
+    min-height: 300px;
+    align-items: start;
     margin: 20px 0;
+
+    &-item {
+      display: grid;
+      grid-template-columns: 68px 1fr;
+      align-items: center;
+      grid-column-gap: 12px;
+      padding: 28px;
+      border-radius: 12px;
+      background: #10001D;
+
+      img {
+        grid-row: 1 / 4;
+      }
+    }
   }
 }
 </style>

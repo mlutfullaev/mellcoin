@@ -42,7 +42,14 @@ button {
   color: #fff;
   font-weight: 700;
   background: #B282FA;
+  border: 1px solid #B282FA;
   border-radius: 12px;
+  transition: .3s;
+
+  &:hover {
+    color: #B282FA;
+    background: transparent;
+  }
 }
 
 .pink-content {
