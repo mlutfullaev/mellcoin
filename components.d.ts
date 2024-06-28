@@ -12,7 +12,7 @@ declare module 'vue' {
     Casino: typeof import('./src/components/Casino.vue')['default']
     CircleImage: typeof import('./src/components/CircleImage.vue')['default']
     CoinQuantity: typeof import('./src/components/CoinQuantity.vue')['default']
-    FreezingItem: typeof import('./src/components/FreezingItem.vue')['default']
+    FreezingItem: typeof import('./src/components/StakingItem.vue')['default']
     Hint: typeof import('./src/components/Hint.vue')['default']
     LevelTask: typeof import('./src/components/LevelTask.vue')['default']
     ProgressBar: typeof import('primevue/progressbar')['default']
@@ -21,6 +21,7 @@ declare module 'vue' {
     Sidebar: typeof import('primevue/sidebar')['default']
     SplitButton: typeof import('primevue/splitbutton')['default']
     Staking: typeof import('./src/components/Staking.vue')['default']
+    StakingItem: typeof import('./src/components/StakingItem.vue')['default']
     TabMenu: typeof import('primevue/tabmenu')['default']
   }
 }

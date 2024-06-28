@@ -1,41 +1,45 @@
 <script lang="ts" setup="">
-import {freezing} from "@/assets/data.ts";
-import FreezingItem from "@/components/FreezingItem.vue";
 import CircleImage from "@/components/CircleImage.vue";
 import {ref} from "vue";
+import {IStake} from "@/assets/types.ts";
+import StakingItem from "@/components/StakingItem.vue";
 
-const freezeAmount = ref('')
-const freezeModal = ref(false)
+defineProps<{
+  stakeList: IStake[]
+}>()
+
+const stakeAmount = ref('')
+const stakeModal = ref(false)
 const activeFreeze = ref<null | number>(null)
 </script>
 
 <template>
   <div class="staking">
-    <FreezingItem
-      v-for="(freeze, i) in freezing"
-      :key="freeze.id"
-      :freeze="freeze"
+    <StakingItem
+      v-for="(stake, i) in stakeList"
+      :key="stake.name"
+      :stake="stake"
       :index="i"
-      @onFreeze="(index: number) => {activeFreeze = index; freezeModal = true}"
+      @onFreeze="(index: number) => {activeFreeze = index; stakeModal = true}"
     />
   </div>
-  <Sidebar v-model:visible="freezeModal" position="bottom" style="height: auto">
+  <Sidebar v-model:visible="stakeModal" position="bottom" style="height: auto">
     <CircleImage
       v-if="activeFreeze !== null"
-      :image="freezing[activeFreeze].img"
+      image="@/assets/icons/1-hour.svg"
       :size="160"
       second-color="#26154A"
       first-color="#B282FA1A"
     />
-    <h1 class="title pt-4 pb-2" v-if="activeFreeze !== null">{{freezing[activeFreeze].title}}</h1>
-    <p class="text pb-4" v-if="activeFreeze !== null">Заморозить под {{freezing[activeFreeze].percent}}%</p>
+    <h1 class="title pt-4 pb-2" v-if="activeFreeze !== null">{{stakeList[activeFreeze].name}}</h1>
+    <p class="text pb-4" v-if="activeFreeze !== null">Заморозить под {{stakeList[activeFreeze].percent}}%</p>
     <input
       type="text"
       class="input my-4"
-      v-model="freezeAmount"
-      placeholder="Enter the amount to freeze"
+      v-model="stakeAmount"
+      placeholder="Enter the amount to stake"
     >
-    <button @click=" freezeModal = false" class="btn">Activate</button>
+    <button @click=" stakeModal = false" class="btn">Activate</button>
   </Sidebar>
 </template>
 

@@ -3,33 +3,35 @@ import UserStatistics from "@/layouts/UserStatistics.vue";
 import CircleImage from "@/components/CircleImage.vue";
 import MainImage from '@/assets/img/main-circle.gif'
 import CoinQuantity from "@/components/CoinQuantity.vue";
+import {useUserStore} from "@/store/userStore.ts";
+
+const userStore = useUserStore();
+
 </script>
 
 <template>
-<UserStatistics />
-<div class="main-page pink-content">
-  <div class="level">
-    <RouterLink to="/levels">
-      Gold <i class="pi pi-arrow-right"></i>
-    </RouterLink>
-    <p><span>Level </span>3/10</p>
+  <UserStatistics />
+  <div class="main-page pink-content">
+    <div class="level">
+      <RouterLink to="/levels">
+        Gold <i class="pi pi-arrow-right"></i>
+      </RouterLink>
+      <p><span>Level </span>3/10</p>
+    </div>
+    <ProgressBar :showValue="false" :value="50" />
+    <div class="content">
+      <CircleImage :image="MainImage" :size="300" second-color="#26154A" first-color="#090327" />
+      <CoinQuantity :value="userStore.user.balance" />
+      <router-link to="/profile" class="btn">
+        <img src="@/assets/icons/shuttle.svg" alt="shuttle">
+        Boost
+      </router-link>
+    </div>
   </div>
-  <ProgressBar :showValue="false" :value="50" />
-  <div class="content">
-    <CircleImage :image="MainImage" :size="300" second-color="#26154A" first-color="#090327" />
-    <CoinQuantity/>
-    <router-link to="/profile" class="btn">
-      <img src="@/assets/icons/shuttle.svg" alt="shuttle">
-      Boost
-    </router-link>
-  </div>
-</div>
 </template>
 
 <style lang="scss" scoped>
 .main-page {
-  padding: 16px 16px 80px;
-
   .level {
     display: flex;
     align-items: center;

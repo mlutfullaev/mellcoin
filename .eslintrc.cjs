@@ -1,18 +1,23 @@
 module.exports = {
   root: true,
-  env: {
-    node: true,
-  },
+  env: { browser: true, es2020: true },
   extends: [
-    'plugin:vue/vue3-essential',
-    '@vue/standard',
-    '@vue/typescript/recommended',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-recommended',
+    'prettier',
   ],
-  parserOptions: {
-    ecmaVersion: 2020,
-  },
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['react-refresh'],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'react-refresh/only-export-components': [
+      'warn',
+      { allowConstantExport: true },
+    ],
+    quotes: ["error", "single"],
+    semi: ["error", "never"],
+    "indent": ["error", 2],
+    "object-curly-spacing": ["error", "always"],
   },
-};
+}

@@ -13,6 +13,7 @@ const routes = [
   { path: '/mine', component: MineView },
   { path: '/friends', component: FriendsView },
   { path: '/earn', component: EarnView },
+  { path: '/:pathMatch(.*)*', redirect: '/'}
 ]
 
 export const router = createRouter({

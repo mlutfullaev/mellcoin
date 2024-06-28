@@ -1,19 +1,43 @@
 <script lang="ts" setup="">
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import Hint from "@/components/Hint.vue";
-import {ref} from "vue";
-import multiTapImg from "@/assets/img/multiTapBig.png";
-import energyImg from "@/assets/img/energyBig.png";
+import {onMounted, ref} from "vue";
+// import multiTapImg from "@/assets/img/multiTapBig.png";
+// import energyImg from "@/assets/img/energyBig.png";
 import CircleImage from "@/components/CircleImage.vue";
+import {useUserStore} from "@/store/userStore.ts";
+import {IBoost} from "@/assets/types.ts";
+import axios from "axios";
+import {API_URL} from "@/main.ts";
 
-const multiTapModal = ref(false)
-const energyModal = ref(false)
+const boosterModal = ref(false)
+const boosters = ref<IBoost[]>([])
+const activeBooster = ref(0)
+
+const userStore = useUserStore()
+
+onMounted(() => {
+  axios.get(`${API_URL}/boost`)
+    .then(res => {
+      boosters.value = res.data.data
+    })
+})
+
+const onBoost = () => {
+  axios.post(`${API_URL}/boost/${boosters.value[activeBooster.value].id}`)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
 </script>
 
 <template>
  <div class="profile-page">
    <p class="balance text">Your balance</p>
-   <CoinQuantity />
+   <CoinQuantity :value="userStore.user?.balance" />
    <p class="how-works text">How the improvement works <Hint text="it works simply" /></p>
    <h2 class="subtitle">Free daily boosters</h2>
    <div class="cards">
@@ -28,59 +52,46 @@ const energyModal = ref(false)
        <span class="text">Coming soon</span>
      </div>
    </div>
-   <h2 class="subtitle">Boosters</h2>
-   <div class="boosters">
-     <div class="small-card" @click="multiTapModal = true">
-       <img class="small-card-img" src="@/assets/img/multitap.png" alt="multitap">
+   <h2 class="subtitle" v-if="boosters.length">Boosters</h2>
+   <div class="boosters" v-if="boosters.length">
+     <div
+       class="small-card"
+       v-for="(booster, i) in boosters"
+       :key="booster.id"
+       @click="boosterModal = true; activeBooster = i"
+     >
+       <img class="small-card-img" :src="booster.picture_url" alt="booster-picture">
        <div>
-          <p class="text small-card-name">Multitap</p>
+          <p class="text small-card-name">{{booster.name}}</p>
           <p class="text bold small-card-prize">
             <img src="@/assets/icons/bitcoin.svg" alt="coin">
-            16k
-            <span>• 5 lvl</span>
-          </p>
-       </div>
-       <i class="pi pi-arrow-right"></i>
-     </div>
-     <div class="small-card" @click="energyModal = true">
-       <img class="small-card-img" src="@/assets/img/energy.png" alt="energy">
-       <div>
-          <p class="text small-card-name">Energy Limit</p>
-          <p class="text bold small-card-prize">
-            <img src="@/assets/icons/bitcoin.svg" alt="coin">
-            16k
-            <span>• 5 lvl</span>
+            {{booster.initial_cost}}k
+            <span>• {{booster.max_lvl}} lvl</span>
           </p>
        </div>
        <i class="pi pi-arrow-right"></i>
      </div>
    </div>
  </div>
-  <Sidebar v-model:visible="multiTapModal" position="bottom" style="height: auto">
-    <h1 class="title pb-2">Multitap</h1>
+  <Sidebar
+    v-model:visible="boosterModal"
+    position="bottom"
+    style="height: auto"
+  >
+    <h1 class="title pb-2">{{boosters[activeBooster].name}}</h1>
     <p class="text pb-4">Increase the amount of coins you can earn per tap</p>
     <CircleImage
-      :image="multiTapImg"
+      :image="boosters[activeBooster].picture_url"
       :size="160"
       first-color="#B282FA2A"
       second-color="rgba(178, 130, 250, 0.1)"
     />
     <p class="modal-hint">+1 coin for tap for level 5</p>
-    <CoinQuantity :value="16000" :lvl="5" />
-    <button class="btn">Go ahead</button>
-  </Sidebar>
-  <Sidebar v-model:visible="energyModal" position="bottom" style="height: auto">
-    <h1 class="title pb-2">Energy limit</h1>
-    <p class="text pb-4">Increase the amount of energy</p>
-    <CircleImage
-      :image="energyImg"
-      :size="160"
-      first-color="#B282FA2A"
-      second-color="rgba(178, 130, 250, 0.1)"
+    <CoinQuantity
+      :value="Number(boosters[activeBooster].initial_cost)"
+      :lvl="boosters[activeBooster].max_lvl"
     />
-    <p class="modal-hint">+500 energy points for level 5</p>
-    <CoinQuantity :value="16000" :lvl="5" />
-    <button class="btn">Go ahead</button>
+    <button @click="onBoost" class="btn">Go ahead</button>
   </Sidebar>
 </template>
 

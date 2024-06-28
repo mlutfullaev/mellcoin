@@ -1,8 +1,8 @@
 <script lang="ts" setup="">
-import {FreezeI} from "@/assets/types.ts";
+import {IStake} from "@/assets/types.ts";
 
 defineProps<{
-  freeze: FreezeI,
+  stake: IStake,
   index: number,
 }>()
 defineEmits<{
@@ -13,12 +13,12 @@ defineEmits<{
 <template>
   <div class="staking-card">
     <div class="staking-card-content">
-      <img :src="freeze.img" alt="freezing">
-      <p class="text bold">{{freeze.title}}</p>
+      <img src="@/assets/icons/1-hour.svg" alt="staking">
+      <p class="text bold">{{stake.name}}</p>
       <span class="grey">Freeze under</span>
       <p class="text bold pink">
         <img src="@/assets/icons/discount.svg" alt="discount">
-        {{freeze.percent}}%
+        {{stake.percent}}%
       </p>
     </div>
     <button @click="$emit('on-freeze', index)" class="staking-card-button">Activate</button>

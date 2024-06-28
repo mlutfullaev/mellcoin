@@ -1,40 +1,42 @@
 <script lang="ts" setup="">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {formatCoin} from "@/assets/helpers.ts";
+import axios from "axios";
+import {API_URL} from "@/main.ts";
+import {ICasino} from "@/assets/types.ts";
 
 const amounts = [
   1000,
   3000,
   5000,
 ]
-const segments = [
-  '+1000',
-  'Lose',
-  'x2',
-  'Lose',
-  '+1000',
-  'Lose',
-  'x2',
-  'Lose',
-]
-
+const segments = ref<ICasino[]>([])
 const activeAmount = ref(0)
 const spinning = ref(false)
 const currentRotation = ref(0)
 
+onMounted(() => {
+  axios.get(`${API_URL}/casino/list`)
+    .then(res => {
+      segments.value = res.data.data
+      console.log(res.data.data)
+    })
+})
+
 const getSegmentStyle = (index: number) => {
-  const angle = 360 / segments.length
+  const angle = 360 / segments.value.length
   return {
     transform: `rotate(${angle * index}deg)`
   };
 }
 const spinWheel = () => {
   if (spinning.value) return
+  const segmentLength = segments.value.length
 
   spinning.value = true
   const rotations = Math.floor(Math.random() * 5) + 5
-  const segmentAngle = 360 / segments.length
-  const randomSegment = Math.floor(Math.random() * segments.length)
+  const segmentAngle = 360 / segmentLength
+  const randomSegment = Math.floor(Math.random() * segmentLength)
   const extraRotation = Math.floor(Math.random() * segmentAngle)
 
   const targetRotation = (rotations * 360) + (randomSegment * segmentAngle) + extraRotation
@@ -43,8 +45,8 @@ const spinWheel = () => {
   setTimeout(() => {
     spinning.value = false
     const normalizedRotation = (currentRotation.value + 21) % 360;
-    const resultIndex = Math.floor((normalizedRotation / segmentAngle)) % segments.length;
-    const resultSegment = segments[(segments.length - resultIndex) % segments.length]
+    const resultIndex = Math.floor((normalizedRotation / segmentAngle)) % segmentLength;
+    const resultSegment = segments.value[(segmentLength - resultIndex) % segmentLength]
     console.log(resultSegment)
   }, 5000)
 }
@@ -58,11 +60,11 @@ const spinWheel = () => {
         <div
           class="segment"
           v-for="(item, i) in segments"
-          :key="item"
+          :key="item.id"
           :style="getSegmentStyle(i)"
         >
           <p>
-            {{ item }}
+            {{ item.name }}
             <img v-if="i % 2 === 0" src="@/assets/icons/bitcoin.svg" alt="win">
             <img v-else src="@/assets/icons/lose.svg" alt="lose">
           </p>

@@ -1,19 +1,16 @@
 <script lang="ts" setup="">
 import {formatCoin} from "../assets/helpers.ts";
-import {useUserStore} from "@/store/userStore.ts";
 
 defineProps<{
   value?: number
   lvl?: number
 }>()
-
-const userStore = useUserStore();
 </script>
 
 <template>
 <div class="coin-quantity">
   <img src="@/assets/icons/bitcoin.svg" alt="coin">
-  <h1>{{ formatCoin(value || userStore.user.coin) }}<span v-if="lvl"> • {{lvl}} lvl</span></h1>
+  <h1>{{ formatCoin(value || 0) }}<span v-if="lvl"> • {{lvl}} lvl</span></h1>
 </div>
 </template>
 
