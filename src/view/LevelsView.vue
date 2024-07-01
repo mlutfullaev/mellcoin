@@ -14,13 +14,13 @@ onMounted(() => {
 })
 
 const getLevel = () => {
-  let level = 0
-  for (let i = levels.length - 1; i >= 0; i--) {
-    if (userStore.user.coin >= levels[i].from) {
-      level = i
-      break
-    }
-  }
+  let level = 3
+  // for (let i = levels.length - 1; i >= 0; i--) {
+  //   if (userStore.user?.balance >= levels[i].from) {
+  //     level = i
+  //     break
+  //   }
+  // }
   currentLevel.value = level
   userLevel.value = level
 }
