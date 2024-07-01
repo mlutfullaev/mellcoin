@@ -1,25 +1,26 @@
 <script lang="ts" setup="">
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {formatCoin} from "@/assets/helpers.ts";
 import axios from "axios";
 import {API_URL} from "@/main.ts";
 import {ICasino} from "@/assets/types.ts";
+import {useUserStore} from "@/store/userStore.ts";
 
 const amounts = [
-  1000,
-  3000,
+  1,
+  300,
   5000,
 ]
+const userStore = useUserStore()
 const segments = ref<ICasino[]>([])
-const activeAmount = ref(0)
+const activeAmount = ref(amounts[0])
 const spinning = ref(false)
-const currentRotation = ref(0)
+const angle = ref(0)
 
 onMounted(() => {
   axios.get(`${API_URL}/casino/list`)
     .then(res => {
       segments.value = res.data.data
-      console.log(res.data.data)
     })
 })
 
@@ -29,33 +30,54 @@ const getSegmentStyle = (index: number) => {
     transform: `rotate(${angle * index}deg)`
   };
 }
-const spinWheel = () => {
+const spinWheel = async () => {
   if (spinning.value) return
-  const segmentLength = segments.value.length
+  spinning.value = true;
+  if (spinError.value) return
 
-  spinning.value = true
-  const rotations = Math.floor(Math.random() * 5) + 5
-  const segmentAngle = 360 / segmentLength
-  const randomSegment = Math.floor(Math.random() * segmentLength)
-  const extraRotation = Math.floor(Math.random() * segmentAngle)
+  try {
+    const res = await axios.post(`${API_URL}/user/casino`, {
+      bet: activeAmount.value,
+    });
+    const id = res.data.data.casino_item.id;
+    const winningSegmentIndex = segments.value.findIndex(segment => segment.id === id);
 
-  const targetRotation = (rotations * 360) + (randomSegment * segmentAngle) + extraRotation
-  currentRotation.value += targetRotation
+    const segmentAngle = 360 / segments.value.length;
+    const stopAngle = winningSegmentIndex * segmentAngle;
 
-  setTimeout(() => {
-    spinning.value = false
-    const normalizedRotation = (currentRotation.value + 21) % 360;
-    const resultIndex = Math.floor((normalizedRotation / segmentAngle)) % segmentLength;
-    const resultSegment = segments.value[(segmentLength - resultIndex) % segmentLength]
-    console.log(resultSegment)
-  }, 5000)
+    console.log('winningItem', segments.value[winningSegmentIndex].name)
+    // console.log('winningSegmentIndex', winningSegmentIndex)
+    // console.log('segmentAngle', segmentAngle)
+    // console.log('stopAngle', stopAngle)
+
+    const currentAngle = 360 - (angle.value % 360);
+    const spins = (Math.floor(Math.random() * 5) + 5) * 360;
+    const randomAngle = spins + stopAngle + currentAngle;
+
+    angle.value += randomAngle;
+
+    setTimeout(() => {
+      spinning.value = false;
+      userStore.setUser(res.data.data.user)
+    }, 5000);
+  } catch (error) {
+    console.error('Error spinning the wheel:', error);
+    spinning.value = false;
+  }
 }
+
+const spinError = computed(() => {
+  if (!spinning.value) return ''
+  if (activeAmount.value > Number(userStore.user?.balance)) {
+    return 'Insufficient funds'
+  }
+})
 </script>
 
 <template>
   <div class="casino">
     <img src="@/assets/icons/mark.svg" alt="mark">
-    <div class="casino-content" :style="{ transform: `rotate(${currentRotation + 225}deg)` }">
+    <div class="casino-content" :style="{ transform: `rotate(-${angle + 135}deg)` }">
       <div class="casino-items">
         <div
           class="segment"
@@ -73,14 +95,15 @@ const spinWheel = () => {
     </div>
     <div class="coins">
       <button
-        v-for="(amount, index) in amounts"
-        :class="['btn', activeAmount === index ? 'active' : '']"
-        @click="activeAmount = index"
+        v-for="amount in amounts"
+        :class="['btn', activeAmount === amount ? 'active' : '']"
+        @click="activeAmount = amount"
       >
         <img src="@/assets/icons/bitcoin.svg" alt="coin">
         {{ formatCoin(amount) }}
       </button>
     </div>
+    <p v-if="spinError" class="pb-4 text-center">{{spinError}}</p>
     <button @click="spinWheel" class="btn">
       <img src="@/assets/icons/twist.svg" alt="twist">
       Twist

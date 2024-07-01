@@ -6,9 +6,7 @@ import {useUserStore} from "./store/userStore";
 const userStore = useUserStore()
 
 onMounted(() => {
-  if (!userStore.user) {
-    userStore.fetchUserData()
-  }
+  userStore.fetchUserData()
 })
 </script>
 <template>

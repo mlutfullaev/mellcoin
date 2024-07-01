@@ -3,10 +3,9 @@ import {IStake} from "@/assets/types.ts";
 
 defineProps<{
   stake: IStake,
-  index: number,
 }>()
 defineEmits<{
-  (event: 'on-freeze', index: number): void
+  (event: 'on-freeze'): void
 }>()
 </script>
 
@@ -21,7 +20,7 @@ defineEmits<{
         {{stake.percent}}%
       </p>
     </div>
-    <button @click="$emit('on-freeze', index)" class="staking-card-button">Activate</button>
+    <button @click="$emit('on-freeze')" class="staking-card-button">Activate</button>
   </div>
 </template>
 

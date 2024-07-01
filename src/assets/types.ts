@@ -10,6 +10,7 @@ export interface IUser {
 }
 
 export interface IStake {
+  id: number,
   name: string,
   percent: string,
   hold: number,

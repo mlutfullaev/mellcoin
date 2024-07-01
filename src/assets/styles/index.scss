@@ -138,4 +138,8 @@ button {
   border: 1px solid #26154A;
   background: transparent;
   text-align: center;
+
+  &.error {
+    border: 1px solid #7953ca;
+  }
 }

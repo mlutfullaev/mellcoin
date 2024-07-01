@@ -7,8 +7,7 @@ import {API_URL} from "@/main.ts";
 import {IUser} from "@/assets/types.ts";
 
 export const useUserStore = defineStore('user', () => {
-  const userFromLS = localStorage.getItem('user')
-  const user = ref<IUser | null>(userFromLS ? JSON.parse(userFromLS) : null)
+  const user = ref<IUser | null>(null)
 
   const getToken = async () => {
     // const data = useWebApp().initDataUnsafe
@@ -32,12 +31,17 @@ export const useUserStore = defineStore('user', () => {
     await axios.get(`${API_URL}/user/info`)
       .then(res => {
         user.value = res.data.data
-        localStorage.setItem('user', JSON.stringify(res.data.data))
       })
+  }
+
+  const setUser = (userData: IUser) => {
+    console.log(userData)
+    user.value = userData
   }
 
   return {
     user,
+    setUser,
     fetchUserData
   }
 })
