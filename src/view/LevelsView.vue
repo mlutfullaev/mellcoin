@@ -1,11 +1,11 @@
 <script lang="ts" setup="">
-import {useUserStore} from "@/store/userStore.ts";
+// import {useUserStore} from "@/store/userStore.ts";
 import {onMounted, ref} from "vue";
 import CircleImage from "@/components/CircleImage.vue";
 import LevelTask from "@/components/LevelTask.vue";
 import {levels} from "@/assets/data.ts";
 
-const userStore = useUserStore()
+// const userStore = useUserStore()
 const currentLevel = ref(0)
 const userLevel = ref(0)
 
