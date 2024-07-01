@@ -11,7 +11,7 @@ onMounted(() => {
 </script>
 <template>
 <!--  <Header />-->
-  <router-view />
+  <router-view v-if="userStore.user" />
   <Footer />
 </template>
 

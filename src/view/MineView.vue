@@ -33,7 +33,7 @@ onMounted(() => {
 <template>
   <UserStatistics />
  <div class="mine-page pink-content">
-   <CoinQuantity :value="userStore.user.balance" />
+   <CoinQuantity :value="userStore.user?.balance" />
    <p class="text coin-time">00:50:00 <Hint text="This is hint" /></p>
    <TabMenu
      :model="tabMenu"

@@ -1,22 +1,32 @@
 <script lang="ts" setup="">
+
 defineProps<{
   size: number,
   firstColor: string,
   secondColor: string,
   image: string,
+  click?: (event: TouchEvent | MouseEvent) => void
 }>()
 </script>
 
 <template>
- <div class="circle-image" :style="{width: size + 'px', height: size + 'px', backgroundColor: firstColor}">
-   <div :style="{width: size - 20 + 'px', height: size - 20 + 'px', backgroundColor: secondColor}">
-     <div :style="{
-       width: size - 40 + 'px',
-       height: size - 40 + 'px',
-       backgroundImage: `url('${image}')`
-     }" />
-   </div>
- </div>
+<div
+  @touchstart="click"
+  @click="click"
+  class="circle-image"
+  :style="{
+    width: size + 'px',
+    height: size + 'px',
+    backgroundColor: firstColor
+  }">
+  <div :style="{width: size - 20 + 'px', height: size - 20 + 'px', backgroundColor: secondColor}">
+    <div :style="{
+      width: size - 40 + 'px',
+      height: size - 40 + 'px',
+      backgroundImage: `url('${image}')`
+    }" />
+  </div>
+</div>
 </template>
 
 <style lang="scss" scoped>

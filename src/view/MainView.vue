@@ -4,14 +4,85 @@ import CircleImage from "@/components/CircleImage.vue";
 import MainImage from '@/assets/img/main-circle.gif'
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import {useUserStore} from "@/store/userStore.ts";
+import {onMounted, onUnmounted, ref} from "vue";
+import { uuid } from 'vue-uuid'
+import axios from "axios";
+import {API_URL} from "@/main.ts";
 
+interface FloatingText {
+  x: number;
+  y: number;
+  id: string
+  message: string;
+}
 const userStore = useUserStore();
+const floatingTexts = ref<FloatingText[]>([]);
+const earnedCoins = ref(0)
 
+const showText = (event: TouchEvent | MouseEvent) => {
+  const coin = Number(userStore.user?.level) + 2
+  const message = '+' + coin
+  const newText: FloatingText = {
+    x: 0,
+    y: 0,
+    id: uuid.v1(),
+    message,
+  }
+
+  if (event instanceof MouseEvent) {
+    newText.x = event.clientX
+    newText.y = event.clientY
+  } else if (event instanceof TouchEvent) {
+    const touch = event.touches[0]
+    const rect = (event.target as HTMLElement).getBoundingClientRect()
+    newText.x = touch.clientX + rect.left
+    newText.y = touch.clientY + rect.top
+  }
+
+  floatingTexts.value.push(newText)
+
+  earnedCoins.value += coin
+
+  setTimeout(() => {
+    floatingTexts.value = floatingTexts.value.filter(text => text.id !== newText.id)
+  }, 2000)
+};
+
+const postCoins = () => {
+  if (!earnedCoins.value) return
+  axios.post(`${API_URL}/user/tap`, {
+    count: earnedCoins.value
+  })
+    .then(res => {
+      userStore.setUser(res.data.data)
+      earnedCoins.value = 0
+      console.log(res, earnedCoins.value)
+    })
+}
+
+onMounted(() => {
+  const interval = setInterval(postCoins, 10000)
+
+  return () => {
+    clearInterval(interval)
+    postCoins()
+  }
+})
+onUnmounted(() => {
+  postCoins()
+})
 </script>
 
 <template>
   <UserStatistics />
   <div class="main-page pink-content">
+    <div
+      v-for="text in floatingTexts"
+      :key="text.id"
+      class="floating-text"
+      :style="{ top: `${text.y}px`, left: `${text.x}px` }">
+      {{ text.message }}
+    </div>
     <div class="level">
       <RouterLink to="/levels">
         Gold <i class="pi pi-arrow-right"></i>
@@ -20,8 +91,14 @@ const userStore = useUserStore();
     </div>
     <ProgressBar :showValue="false" :value="50" />
     <div class="content">
-      <CircleImage :image="MainImage" :size="300" second-color="#26154A" first-color="#090327" />
-      <CoinQuantity :value="userStore.user.balance" />
+      <CircleImage
+        :image="MainImage"
+        :size="300"
+        second-color="#26154A"
+        first-color="#090327"
+        :click="showText"
+      />
+      <CoinQuantity :value="Number(userStore.user?.balance) + earnedCoins" />
       <router-link to="/profile" class="btn">
         <img src="@/assets/icons/shuttle.svg" alt="shuttle">
         Boost
@@ -32,6 +109,15 @@ const userStore = useUserStore();
 
 <style lang="scss" scoped>
 .main-page {
+  .floating-text {
+    position: absolute;
+    transform: translate(-50%, 0);
+    transition: all 2s ease-in-out;
+    animation: floating 2s;
+    pointer-events: none;
+    font-size: 25px;
+    font-weight: 700
+  }
   .level {
     display: flex;
     align-items: center;
@@ -59,6 +145,17 @@ const userStore = useUserStore();
 
   .content {
     padding: 20px 0 10px;
+  }
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
   }
 }
 </style>
