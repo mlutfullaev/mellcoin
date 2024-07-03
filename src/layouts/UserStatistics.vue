@@ -1,6 +1,8 @@
 <script lang="ts" setup="">
-
 import Hint from "@/components/Hint.vue";
+import {useUserStore} from "@/store/userStore.ts";
+
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -11,11 +13,11 @@ import Hint from "@/components/Hint.vue";
   <div class="statistics">
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/tap.svg" alt="coin">
-      <p><span>+3</span>/tap</p>
+      <p><span>+{{Number(userStore.user?.level) + 2}}</span>/tap</p>
     </div>
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/hours.svg" alt="icon">
-      <p><span>+3</span>/tap</p>
+      <p><span>+{{userStore.user?.hour_profit}}</span>/tap</p>
       <Hint text="This is tap" />
     </div>
     <div class="statistics-item">

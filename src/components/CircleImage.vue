@@ -11,7 +11,6 @@ defineProps<{
 
 <template>
 <div
-  @touchstart="click"
   @click="click"
   class="circle-image"
   :style="{

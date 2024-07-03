@@ -12,7 +12,7 @@ onMounted(() => {
 <template>
 <!--  <Header />-->
   <router-view v-if="userStore.user" />
-  <Footer />
+  <Footer v-if="userStore.user" />
 </template>
 
 <style scoped>

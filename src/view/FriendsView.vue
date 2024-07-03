@@ -1,5 +1,14 @@
 <script lang="ts" setup="">
+import {ref} from "vue";
 
+const checking = ref(false)
+
+const refresh = () => {
+  checking.value = true
+  setTimeout(() => {
+    checking.value = false
+  }, 2000)
+}
 </script>
 
 <template>
@@ -29,8 +38,11 @@
    <button>More bonuses</button>
    <h2 class="subtitle py-4 flex justify-between">
      A list of your friends
-     <button><i class="pi pi-refresh" /></button>
+     <button @click="refresh" :class="{'spin': checking}"><i class="pi pi-refresh" /></button>
    </h2>
+   <div class="friends-notfound mb-4">
+     You haven't invited anyone yet
+   </div>
    <div class="friend-list">
      <div class="small-card">
        <img class="small-card-img" src="@/assets/img/avatar.png" alt="avatar">
@@ -47,6 +59,10 @@
          +25K
        </p>
      </div>
+   </div>
+   <div class="friends-buttons">
+      <button class="btn">Invite a friend <i class="pi pi-users"></i></button>
+      <button class="btn"><i class="pi pi-copy"></i></button>
    </div>
  </div>
 </template>
@@ -96,11 +112,36 @@
       color: #fff;
     }
   }
+  .friends-notfound {
+    background: #1E072F;
+    border-radius: 12px;
+    text-align: center;
+    padding: 30px 10px;
+    color: #9C9E9B;
+    font-size: 12px;
+  }
   .friend-list {
     display: grid;
     gap: 8px;
     min-height: 300px;
     align-items: start;
+  }
+  .friends-buttons {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+  }
+  .spin {
+    transform: rotate(0deg);
+    animation: spin .7s linear infinite;
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg)
   }
 }
 </style>

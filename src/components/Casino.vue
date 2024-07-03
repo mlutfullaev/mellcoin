@@ -75,7 +75,7 @@ const spinError = computed(() => {
 </script>
 
 <template>
-  <div class="casino">
+  <div class="casino" v-if="segments.length">
     <img src="@/assets/icons/mark.svg" alt="mark">
     <div class="casino-content" :style="{ transform: `rotate(-${angle + 135}deg)` }">
       <div class="casino-items">

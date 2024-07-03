@@ -19,7 +19,7 @@ const userStore = useUserStore();
 const floatingTexts = ref<FloatingText[]>([]);
 const earnedCoins = ref(0)
 
-const showText = (event: TouchEvent | MouseEvent) => {
+const onTap = (event: TouchEvent | MouseEvent) => {
   const coin = Number(userStore.user?.level) + 2
   const message = '+' + coin
   const newText: FloatingText = {
@@ -56,7 +56,6 @@ const postCoins = () => {
     .then(res => {
       userStore.setUser(res.data.data)
       earnedCoins.value = 0
-      console.log(res, earnedCoins.value)
     })
 }
 
@@ -96,7 +95,7 @@ onUnmounted(() => {
         :size="300"
         second-color="#26154A"
         first-color="#090327"
-        :click="showText"
+        :click="onTap"
       />
       <CoinQuantity :value="Number(userStore.user?.balance) + earnedCoins" />
       <router-link to="/profile" class="btn">

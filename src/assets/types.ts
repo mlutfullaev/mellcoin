@@ -4,7 +4,7 @@ export interface IUser {
   last_name: string,
   inviter_id: null | number,
   level: number,
-  balance: number,
+  balance: string,
   level_coints_cnt: number,
   hour_profit: number,
 }
@@ -34,4 +34,14 @@ export interface IBoost {
   initial_cost: string,
   is_can_buy: boolean,
   is_active: boolean,
+}
+
+export interface ITask {
+  id: number,
+  name: string,
+  recurrent: number,
+  recurrent_rules: string,
+  approve_requirements: string,
+  reward: string,
+  type: number,
 }

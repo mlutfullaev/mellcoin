@@ -2,8 +2,6 @@
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import Hint from "@/components/Hint.vue";
 import {onMounted, ref} from "vue";
-// import multiTapImg from "@/assets/img/multiTapBig.png";
-// import energyImg from "@/assets/img/energyBig.png";
 import CircleImage from "@/components/CircleImage.vue";
 import {useUserStore} from "@/store/userStore.ts";
 import {IBoost} from "@/assets/types.ts";
@@ -25,8 +23,8 @@ onMounted(() => {
 
 const onBoost = () => {
   axios.post(`${API_URL}/boost/${boosters.value[activeBooster.value].id}`)
-    .then(res => {
-      console.log(res)
+    .then(() => {
+      boosterModal.value = false
     })
     .catch(err => {
       console.log(err)
