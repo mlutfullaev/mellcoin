@@ -1,6 +1,7 @@
 <script lang="ts" setup="">
 import Hint from "@/components/Hint.vue";
 import {useUserStore} from "@/store/userStore.ts";
+import {formatWithPrefix} from "../assets/helpers.ts";
 
 const userStore = useUserStore()
 </script>
@@ -22,7 +23,7 @@ const userStore = useUserStore()
     </div>
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/level-up.svg" alt="level-up">
-      <p><span>100k</span>/lvl up</p>
+      <p><span>{{formatWithPrefix(Number(userStore.user?.level_coints_cnt))}}</span>/lvl up</p>
     </div>
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/rock.svg" alt="rock">

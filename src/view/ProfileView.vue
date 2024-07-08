@@ -37,19 +37,6 @@ const onBoost = () => {
    <p class="balance text">Your balance</p>
    <CoinQuantity :value="userStore.user?.balance" />
    <p class="how-works text">How the improvement works <Hint text="it works simply" /></p>
-   <h2 class="subtitle">Free daily boosters</h2>
-   <div class="cards">
-     <div class="cards-item">
-       <img src="@/assets/icons/lightning.svg" alt="lighting">
-       <p class="bold text">Full energy</p>
-       <span class="text">5/6 available</span>
-     </div>
-     <div class="cards-item">
-       <img src="@/assets/icons/fire.svg" alt="fire">
-       <p class="text bold">Turbo</p>
-       <span class="text">Coming soon</span>
-     </div>
-   </div>
    <h2 class="subtitle" v-if="boosters.length">Boosters</h2>
    <div class="boosters" v-if="boosters.length">
      <div
@@ -109,28 +96,6 @@ const onBoost = () => {
     align-items: center;
     gap: 5px;
     margin-bottom: 20px;
-  }
-  .cards {
-    padding: 20px 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-
-    &-item {
-      margin-bottom: 20px;
-      padding: 8px;
-      border-radius: 8px;
-      background: #26154A;
-      text-align: center;
-
-      img {
-        margin: 0 auto 20px;
-        width: 60px;
-      }
-      span {
-        color: #9C9E9B;
-      }
-    }
   }
   .boosters {
     margin: 10px 0;

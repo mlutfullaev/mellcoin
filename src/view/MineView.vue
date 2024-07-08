@@ -3,13 +3,10 @@
 import UserStatistics from "@/layouts/UserStatistics.vue";
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import Hint from "@/components/Hint.vue";
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import Staking from "@/components/Staking.vue";
 import Casino from "@/components/Casino.vue";
 import {useUserStore} from "@/store/userStore.ts";
-import axios from "axios";
-import {API_URL} from "@/main.ts";
-import {IStake} from "@/assets/types.ts";
 
 const tabMenu = ref([
   { label: 'Staking' },
@@ -19,15 +16,6 @@ const tabMenu = ref([
 
 const activeMenu = ref(0)
 const userStore = useUserStore()
-
-const stakeList = ref<IStake[]>([])
-
-onMounted(() => {
-  axios.get(`${API_URL}/stake/list`)
-    .then(res => {
-      stakeList.value = res.data.data
-    })
-})
 </script>
 
 <template>
@@ -39,10 +27,7 @@ onMounted(() => {
      :model="tabMenu"
      @tabChange="(value: any) => activeMenu = value.index"
    />
-   <Staking
-     v-if="tabMenu[activeMenu].label === 'Staking'"
-      :stakeList="stakeList"
-   />
+   <Staking v-if="tabMenu[activeMenu].label === 'Staking'" />
    <div class="cards" v-if="tabMenu[activeMenu].label === 'Cards'">
      <div class="cards-item">
        <img src="@/assets/img/gift.png" alt="gift">

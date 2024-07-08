@@ -1,21 +1,60 @@
 <script lang="ts" setup="">
 import CircleImage from "@/components/CircleImage.vue";
-import {computed, ref, watch} from "vue";
-import {IStake} from "@/assets/types.ts";
+import {computed, onMounted, ref, watch} from "vue";
+import {IActivatedStake, IStake} from "@/assets/types.ts";
 import StakingItem from "@/components/StakingItem.vue";
 import axios from "axios";
 import {API_URL} from "@/main.ts";
 import {useUserStore} from "@/store/userStore.ts";
-
-defineProps<{
-  stakeList: IStake[]
-}>()
+import {formatTime} from "@/assets/helpers.ts";
+import attention from "@/assets/icons/attention.svg";
+import CoinQuantity from "@/components/CoinQuantity.vue";
 
 const userStore = useUserStore()
 const stakeAmount = ref('')
 const stakeSubmitted = ref(false)
+
+const activatedStakeList = ref<IActivatedStake[]>([])
+const activatedStakeModal = ref(false)
+const activeActivatedStake = ref<IActivatedStake | null>(null)
+
 const stakeModal = ref(false)
+const resetModal = ref(false)
 const activeStake = ref<IStake | null>(null)
+const stakeList = ref<IStake[]>([])
+const now = ref(new Date().getTime())
+
+onMounted(() => {
+  axios.get(`${API_URL}/stake/list`)
+    .then(res => {
+      stakeList.value = res.data.data
+    })
+  axios.get(`${API_URL}/user/staking`)
+    .then(res => {
+      activatedStakeList.value = res.data.data
+    })
+
+  const nowInterval = setInterval(() => {
+    now.value = new Date().getTime()
+  }, 1000)
+
+  return () => clearInterval(nowInterval)
+})
+
+const onClickFreeze = (stake: IStake) => {
+  const isActivated = isActivatedStake(stake.id)
+  if (isActivated) {
+    activatedStakeModal.value = true
+    activeActivatedStake.value = activatedStakeList.value.find(activeStake => activeStake.stake_card_id === stake.id) || null
+  } else {
+    stakeModal.value = true
+    activeStake.value = stake
+  }
+}
+
+const isActivatedStake = (id: number) => {
+  return activatedStakeList.value.some(stake => stake.stake_card_id === id)
+}
 
 const onActivate = () => {
   stakeSubmitted.value = true
@@ -30,8 +69,25 @@ const onActivate = () => {
     money: stakeAmount.value
   }
   axios.post(`${API_URL}/user/staking`, data)
-    .then(() => {
+    .then(res => {
+      activatedStakeList.value.push(res.data.data)
       stakeModal.value = false
+    })
+}
+
+const onResetFreeze = () => {
+  resetModal.value = true
+  activatedStakeModal.value = false
+}
+
+const onPermanentlyResetFreeze = () => {
+  if (!activeActivatedStake.value) return
+  axios.put(`${API_URL}/user/staking/cancel`, {
+    stake_card_id: activeActivatedStake.value.stake_card_id
+  })
+    .then(() => {
+      activeActivatedStake.value = null
+      resetModal.value = false
     })
 }
 
@@ -54,6 +110,16 @@ const stakeError = computed(() => {
   if (amount > maxAmount) return `Maximum amount is ${maxAmount}`
   if (amount > Number(userStore.user?.balance)) return 'Insufficient funds'
 })
+
+const timeLeft = computed(() => {
+  if (!activeActivatedStake.value) return ''
+  const endDate = new Date(activeActivatedStake.value.end_date).getTime()
+  const time = new Date(endDate - now.value)
+  const hours = formatTime(time.getHours())
+  const minutes = formatTime(time.getMinutes())
+  const seconds = formatTime(time.getSeconds())
+  return `${hours}:${minutes}:${seconds}`
+})
 </script>
 
 <template>
@@ -62,7 +128,8 @@ const stakeError = computed(() => {
       v-for="stake in stakeList"
       :key="stake.id"
       :stake="stake"
-      @onFreeze="activeStake = stake; stakeModal = true"
+      :activated="isActivatedStake(stake.id)"
+      @onFreeze="onClickFreeze(stake)"
     />
   </div>
   <Sidebar v-model:visible="stakeModal" position="bottom" style="height: auto">
@@ -88,6 +155,36 @@ const stakeError = computed(() => {
     </p>
     <button @click="onActivate" class="btn">Activate</button>
   </Sidebar>
+  <Sidebar v-model:visible="activatedStakeModal" position="bottom" style="height: auto">
+    <CircleImage
+      image="@/assets/icons/1-hour.svg"
+      :size="160"
+      second-color="#26154A"
+      first-color="#B282FA1A"
+    />
+    <h1 class="title pt-4 pb-2">{{activeActivatedStake?.stake_card.name}}</h1>
+    <p class="text pb-4">Заморозить под {{activeActivatedStake?.stake_card.percent}}%</p>
+    <p class="grey pb-4">
+      There's still time left - <b class="pink">{{timeLeft}}</b>
+    </p>
+    <p class="disabled-input input mb-4">
+      <img src="@/assets/icons/bitcoin.svg" alt="coin">
+      {{activeActivatedStake?.money}}
+    </p>
+    <button @click="onResetFreeze" class="btn">Reset Freeze</button>
+  </Sidebar>
+  <Sidebar v-model:visible="resetModal" position="bottom" style="height: auto">
+    <CircleImage
+      :image="attention"
+      :size="160"
+      second-color="#26154A"
+      first-color="#B282FA1A"
+    />
+    <h1 class="title pt-4 pb-2">Attention!</h1>
+    <p class="text pb-4">If you cancel the freeze at the moment, you will lose the money you earned:</p>
+    <CoinQuantity :value="Number(activeActivatedStake?.money)" />
+    <button @click="onPermanentlyResetFreeze" class="btn">Reset Freeze</button>
+  </Sidebar>
 </template>
 
 <style lang="scss" scoped>
@@ -96,5 +193,15 @@ const stakeError = computed(() => {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin: 20px 0;
+}
+
+.disabled-input {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  img {
+    width: 20px
+  }
 }
 </style>

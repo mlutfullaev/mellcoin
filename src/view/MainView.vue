@@ -4,10 +4,11 @@ import CircleImage from "@/components/CircleImage.vue";
 import MainImage from '@/assets/img/main-circle.gif'
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import {useUserStore} from "@/store/userStore.ts";
-import {onMounted, onUnmounted, ref} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 import { uuid } from 'vue-uuid'
 import axios from "axios";
 import {API_URL} from "@/main.ts";
+import {useLevelStore} from "@/store/levelStore.ts";
 
 interface FloatingText {
   x: number;
@@ -16,6 +17,7 @@ interface FloatingText {
   message: string;
 }
 const userStore = useUserStore();
+const levelsStore = useLevelStore();
 const floatingTexts = ref<FloatingText[]>([]);
 const earnedCoins = ref(0)
 
@@ -59,6 +61,12 @@ const postCoins = () => {
     })
 }
 
+const levelProgressPercent = computed(() => {
+  const from = Number(userStore.user?.balance)
+  const to = Number(levelsStore.levels[Number(userStore.user?.level)].money)
+  return from / to * 100
+})
+
 onMounted(() => {
   const interval = setInterval(postCoins, 10000)
 
@@ -86,9 +94,13 @@ onUnmounted(() => {
       <RouterLink to="/levels">
         Gold <i class="pi pi-arrow-right"></i>
       </RouterLink>
-      <p><span>Level </span>3/10</p>
+      <p><span>Level </span>{{userStore.user?.level}}/{{levelsStore.levels.length}}</p>
     </div>
-    <ProgressBar :showValue="false" :value="50" />
+    <ProgressBar
+      v-if="levelsStore.levels.length > Number(userStore.user?.level) + 1"
+      :showValue="false"
+      :value="levelProgressPercent"
+    />
     <div class="content">
       <CircleImage
         :image="MainImage"

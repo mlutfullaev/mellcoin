@@ -18,6 +18,15 @@ export interface IStake {
   max_amount: string,
 }
 
+export interface IActivatedStake {
+  id: number,
+  stake_card: IStake,
+  stake_card_id: number,
+  start_date: string,
+  end_date: string,
+  money: string,
+}
+
 export interface ICasino {
   id: number,
   name: string,
@@ -44,4 +53,13 @@ export interface ITask {
   approve_requirements: string,
   reward: string,
   type: number,
+  image: string,
+}
+
+export interface ILevel {
+  id: number,
+  name: string,
+  level: number,
+  money: number,
+  image: string,
 }

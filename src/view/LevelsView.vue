@@ -1,29 +1,37 @@
 <script lang="ts" setup="">
 // import {useUserStore} from "@/store/userStore.ts";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import CircleImage from "@/components/CircleImage.vue";
 import LevelTask from "@/components/LevelTask.vue";
-import {levels} from "@/assets/data.ts";
+import {ILevel} from "@/assets/types.ts";
+import {LevelTasks} from "@/assets/data.ts";
+import {useUserStore} from "@/store/userStore.ts";
+import {formatWithPrefix} from "@/assets/helpers.ts";
+import {useLevelStore} from "@/store/levelStore.ts";
+
+const userStore = useUserStore()
+const levelsStore = useLevelStore()
 
 // const userStore = useUserStore()
-const currentLevel = ref(0)
+const currentLevel = ref(userStore.user ? userStore.user.level  - 1 : 0)
 const userLevel = ref(0)
 
-onMounted(() => {
-  getLevel()
+const levelProgressText = computed(() => {
+  if (!userStore.user) return
+  const from = userStore.user?.balance
+  let text = `${formatWithPrefix(from)}`
+  if (levelsStore.levels[currentLevel.value + 1]) {
+    text += ` / ${formatWithPrefix(levelsStore.levels[currentLevel.value + 1].money)}`
+  }
+  return text
 })
 
-const getLevel = () => {
-  let level = 3
-  // for (let i = levels.length - 1; i >= 0; i--) {
-  //   if (userStore.user?.balance >= levels[i].from) {
-  //     level = i
-  //     break
-  //   }
-  // }
-  currentLevel.value = level
-  userLevel.value = level
-}
+const levelProgressPercent = computed(() => {
+  const from = Number(userStore.user?.balance)
+  const to = Number(levelsStore.levels[currentLevel.value + 1].money)
+  return from / to * 100
+})
+
 const formatNumber = (num: number) => {
   if (num >= 1000000000) {
     return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B+';
@@ -39,7 +47,7 @@ const formatNumber = (num: number) => {
 </script>
 
 <template>
- <div class="levels-page">
+ <div class="levels-page" v-if="levelsStore.levels.length">
   <div class="top-slider">
     <Button
       :disabled="currentLevel === 0"
@@ -47,33 +55,33 @@ const formatNumber = (num: number) => {
       icon="pi pi-arrow-left"
     />
     <CircleImage
-      :image="levels[currentLevel].img"
+      :image="levelsStore.levels[currentLevel].image"
       :size="160"
       :second-color="currentLevel === userLevel ? '#B282FA' : '#26154A'"
       :first-color="currentLevel === userLevel ? '#B282FA80' : '#B282FA1A'"
     />
     <Button
-      :disabled="currentLevel === levels.length - 1"
+      :disabled="currentLevel === levelsStore.levels.length - 1"
       @click="currentLevel = currentLevel + 1"
       icon="pi pi-arrow-right"
     />
   </div>
-   <h1 class="title pb-4">{{levels[currentLevel].title}}</h1>
+   <h1 class="title pb-4">{{levelsStore.levels[currentLevel].name}}</h1>
    <div v-if="userLevel === currentLevel">
-     <p class="bold">24.54K / 100K</p>
-     <ProgressBar :showValue="false" :value="34" />
+     <p class="bold">{{levelProgressText}}</p>
+     <ProgressBar v-if="levelsStore.levels[currentLevel + 1]" :showValue="false" :value="levelProgressPercent" />
    </div>
-    <p v-else>frome {{ formatNumber(levels[currentLevel].from) }}</p>
+    <p v-else>frome {{ formatNumber(levelsStore.levels[currentLevel].money) }}</p>
    <div class="assignments">
      <h2 class="subtitle assignments-title">Level Assignments</h2>
      <LevelTask
-       v-for="(task, i) in levels[currentLevel].tasks"
+       v-for="(task, i) in LevelTasks"
        :key="task.id"
        :title="task.name"
        :prize="26653"
        :queue="i + 1"
        :completed="false"
-       :img="levels[currentLevel].img"
+       :img="levelsStore.levels[currentLevel].image"
      />
    </div>
  </div>

@@ -43,23 +43,23 @@ const refresh = () => {
    <div class="friends-notfound mb-4">
      You haven't invited anyone yet
    </div>
-   <div class="friend-list">
-     <div class="small-card">
-       <img class="small-card-img" src="@/assets/img/avatar.png" alt="avatar">
-       <div>
-         <p class="text small-card-name">Nickname</p>
-         <p class="text bold small-card-prize">
-           <span>5 lvl •</span>
-           <img src="@/assets/icons/bitcoin.svg" alt="coin">
-           16k
-         </p>
-       </div>
-       <p class="subtitle flex gap-1">
-         <img src="@/assets/icons/bitcoin.svg" alt="coin" width="20">
-         +25K
-       </p>
-     </div>
-   </div>
+<!--   <div class="friend-list">-->
+<!--     <div class="small-card">-->
+<!--       <img class="small-card-img" src="@/assets/img/avatar.png" alt="avatar">-->
+<!--       <div>-->
+<!--         <p class="text small-card-name">Nickname</p>-->
+<!--         <p class="text bold small-card-prize">-->
+<!--           <span>5 lvl •</span>-->
+<!--           <img src="@/assets/icons/bitcoin.svg" alt="coin">-->
+<!--           16k-->
+<!--         </p>-->
+<!--       </div>-->
+<!--       <p class="subtitle flex gap-1">-->
+<!--         <img src="@/assets/icons/bitcoin.svg" alt="coin" width="20">-->
+<!--         +25K-->
+<!--       </p>-->
+<!--     </div>-->
+<!--   </div>-->
    <div class="friends-buttons">
       <button class="btn">Invite a friend <i class="pi pi-users"></i></button>
       <button class="btn"><i class="pi pi-copy"></i></button>
@@ -69,7 +69,7 @@ const refresh = () => {
 
 <style lang="scss" scoped>
 .friends-page {
-  padding: 0 16px;
+  padding: 0 16px 90px;
 
   .cards {
     padding: 20px 0;
