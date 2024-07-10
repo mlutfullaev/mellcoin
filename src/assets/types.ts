@@ -63,9 +63,6 @@ export interface ICompletedTask {
   completed_at: string | null
   status: EStatus
   task: ITask
-  reward: string
-  type: number
-  approve_requirements: string[]
 }
 
 export interface ILevel {

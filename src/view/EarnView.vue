@@ -10,7 +10,7 @@ import CoinQuantity from "@/components/CoinQuantity.vue";
 const tasks = ref<ITask[]>([])
 const completedTasks = ref<ICompletedTask[]>([])
 const dailyTasks = ref<ICompletedTask[]>([])
-const dailyRewardModal = ref(false)
+// const dailyRewardModal = ref(false)
 
 onMounted(() => {
   axios.get(`${API_URL}/task/daily`)
@@ -36,9 +36,13 @@ const checkTask = (id: number) => {
   )
 }
 
-const onConfirmReward = () => {
-  dailyRewardModal.value = false
+const isCompleted = (id: number): boolean => {
+  return completedTasks.value.some(task => task.id === id && task.completed_at)
 }
+
+// const onConfirmReward = () => {
+  // dailyRewardModal.value = false
+// }
 </script>
 
 <template>
@@ -51,16 +55,22 @@ const onConfirmReward = () => {
    />
    <h1 class="title py-4">Earn more coins</h1>
    <h2 class="subtitle pb-2">Daily tasks</h2>
-   <div class="small-card" @click="dailyRewardModal = true">
+   <div
+     v-if="dailyTasks.length"
+     v-for="task in dailyTasks"
+     class="small-card"
+     @click="checkTask(task.id)"
+     :key="task.id"
+   >
      <img class="small-card-img" src="@/assets/img/task.png" alt="task">
      <div>
        <p class="text small-card-name">Daily Reward</p>
        <p class="text bold small-card-prize">
          <img src="@/assets/icons/bitcoin.svg" alt="coin">
-<!--         +{{userStore.user.}}-->
+         +{{Number(task.task.reward).toFixed()}}
        </p>
      </div>
-     <i class="pi pi-arrow-right"></i>
+     <i :class="`pi ${task.completed_at ? 'pi-check-circle' : 'pi-arrow-right'}`" />
    </div>
    <h2 class="subtitle pt-5 pb-2">List of tasks</h2>
    <div
@@ -74,25 +84,25 @@ const onConfirmReward = () => {
        <p class="text small-card-name">{{task.name}}</p>
        <p class="text bold small-card-prize">
          <img src="@/assets/icons/bitcoin.svg" alt="coin">
-         +{{task.reward}}
+         +{{Number(task.reward).toFixed()}}
        </p>
      </div>
-<!--     <i :class="`pi ${task'pi-arrow-right'}`"></i>-->
+     <i :class="`pi ${isCompleted(task.id) ? 'pi-check-circle' : 'pi-arrow-right'}`"></i>
    </div>
-   <Sidebar v-model:visible="dailyRewardModal" position="bottom" style="height: auto">
-     <CircleImage
-       :image="goldCoin"
-       :size="160"
-       second-color="#26154A"
-       first-color="#B282FA1A"
-     />
-     <h1 class="title pt-4 pb-2">Daily reward!</h1>
-     <p class="text pb-4">
-      You can get your daily reward now!
-     </p>
-     <CoinQuantity :value="20000" />
-     <button @click="onConfirmReward" class="btn">Get rewards!</button>
-   </Sidebar>
+<!--   <Sidebar v-model:visible="dailyRewardModal" position="bottom" style="height: auto">-->
+<!--     <CircleImage-->
+<!--       :image="goldCoin"-->
+<!--       :size="160"-->
+<!--       second-color="#26154A"-->
+<!--       first-color="#B282FA1A"-->
+<!--     />-->
+<!--     <h1 class="title pt-4 pb-2">Daily reward!</h1>-->
+<!--     <p class="text pb-4">-->
+<!--      You can get your daily reward now!-->
+<!--     </p>-->
+<!--     <CoinQuantity :value="20000" />-->
+<!--     <button @click="onConfirmReward" class="btn">Get rewards!</button>-->
+<!--   </Sidebar>-->
  </div>
 </template>
 
