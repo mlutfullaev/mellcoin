@@ -3,17 +3,28 @@ import CircleImage from "@/components/CircleImage.vue";
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import {API_URL} from "@/main.ts";
-import {ITask} from "@/assets/types.ts";
+import {ICompletedTask, ITask} from "@/assets/types.ts";
 import goldCoin from '@/assets/img/gold-coin.png'
 import CoinQuantity from "@/components/CoinQuantity.vue";
 
 const tasks = ref<ITask[]>([])
+const completedTasks = ref<ICompletedTask[]>([])
+const dailyTasks = ref<ICompletedTask[]>([])
 const dailyRewardModal = ref(false)
 
 onMounted(() => {
+  axios.get(`${API_URL}/task/daily`)
+    .then(res => {
+      dailyTasks.value = res.data.data
+    })
   axios.get(`${API_URL}/task/list`)
     .then(res => {
       tasks.value = res.data.data
+    })
+  axios.get(`${API_URL}/user/task`)
+    .then(res => {
+      console.log(res.data)
+      completedTasks.value = res.data.data
     })
 })
 
@@ -66,7 +77,7 @@ const onConfirmReward = () => {
          +{{task.reward}}
        </p>
      </div>
-     <i class="pi pi-arrow-right"></i>
+<!--     <i :class="`pi ${task'pi-arrow-right'}`"></i>-->
    </div>
    <Sidebar v-model:visible="dailyRewardModal" position="bottom" style="height: auto">
      <CircleImage

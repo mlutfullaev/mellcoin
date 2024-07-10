@@ -1,20 +1,40 @@
 <script lang="ts" setup="">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import axios from "axios";
+import {API_URL} from "@/main.ts";
+import {IUser} from "@/assets/types.ts";
+import {formatWithPrefix} from "../assets/helpers.ts";
 
 const checking = ref(false)
+
+const link = 'https://t.me/mellcointestbot/start?ref=122'
+
+const friendList = ref<IUser[]>([])
+
+const onCopy = () => {
+  navigator.clipboard.writeText(link)
+}
 
 const refresh = () => {
   checking.value = true
   setTimeout(() => {
-    checking.value = false
+    axios.get(`${API_URL}/user/friends`)
+      .then(res => {
+        friendList.value = res.data.data
+        checking.value = false
+      })
   }, 2000)
 }
+
+onMounted(() => {
+  refresh()
+})
 </script>
 
 <template>
  <div class="friends-page">
   <h1 class="title pb-2">Invite your friends!</h1>
-   <p class="text pb-4">You and your friend will receive bonuses</p>
+   <p class="text pb-4 text-center grey">You and your friend will receive bonuses</p>
    <div class="cards">
      <div class="cards-item">
        <img src="@/assets/img/1.png" alt="one">
@@ -40,36 +60,40 @@ const refresh = () => {
      A list of your friends
      <button @click="refresh" :class="{'spin': checking}"><i class="pi pi-refresh" /></button>
    </h2>
-   <div class="friends-notfound mb-4">
+   <div
+     v-if="friendList.length"
+     class="friend-list mb-4"
+     v-for="friend in friendList"
+   >
+     <div class="small-card">
+       <img class="small-card-img" src="@/assets/img/avatar.png" alt="avatar">
+       <div>
+         <p class="text small-card-name">{{friend.first_name}}</p>
+         <p class="text bold small-card-prize">
+           <span>{{friend.level}} lvl •</span>
+           <img src="@/assets/icons/bitcoin.svg" alt="coin">
+           {{formatWithPrefix(friend.balance)}}
+         </p>
+       </div>
+       <p class="subtitle flex gap-1">
+         <img src="@/assets/icons/bitcoin.svg" alt="coin" width="20">
+         +25K
+       </p>
+     </div>
+   </div>
+   <div class="friends-notfound mb-4" v-else-if="!checking">
      You haven't invited anyone yet
    </div>
-<!--   <div class="friend-list">-->
-<!--     <div class="small-card">-->
-<!--       <img class="small-card-img" src="@/assets/img/avatar.png" alt="avatar">-->
-<!--       <div>-->
-<!--         <p class="text small-card-name">Nickname</p>-->
-<!--         <p class="text bold small-card-prize">-->
-<!--           <span>5 lvl •</span>-->
-<!--           <img src="@/assets/icons/bitcoin.svg" alt="coin">-->
-<!--           16k-->
-<!--         </p>-->
-<!--       </div>-->
-<!--       <p class="subtitle flex gap-1">-->
-<!--         <img src="@/assets/icons/bitcoin.svg" alt="coin" width="20">-->
-<!--         +25K-->
-<!--       </p>-->
-<!--     </div>-->
-<!--   </div>-->
    <div class="friends-buttons">
-      <button class="btn">Invite a friend <i class="pi pi-users"></i></button>
-      <button class="btn"><i class="pi pi-copy"></i></button>
+      <a :href="`https://t.me/share/url?url=${link}`" class="btn">Invite a friend <i class="pi pi-users"></i></a>
+      <button class="btn" @click="onCopy"><i class="pi pi-copy"></i></button>
    </div>
  </div>
 </template>
 
 <style lang="scss" scoped>
 .friends-page {
-  padding: 0 16px 90px;
+  padding: 0 16px 40px;
 
   .cards {
     padding: 20px 0;
@@ -123,10 +147,14 @@ const refresh = () => {
   .friend-list {
     display: grid;
     gap: 8px;
-    min-height: 300px;
     align-items: start;
+
+    .small-card {
+      cursor: auto;
+    }
   }
   .friends-buttons {
+    margin-top: auto;
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 8px;

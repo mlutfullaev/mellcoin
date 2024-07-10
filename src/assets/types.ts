@@ -56,10 +56,27 @@ export interface ITask {
   image: string,
 }
 
+export interface ICompletedTask {
+  id: number
+  user_id: number
+  task_id: number
+  completed_at: string | null
+  status: EStatus
+  task: ITask
+  reward: string
+  type: number
+  approve_requirements: string[]
+}
+
 export interface ILevel {
   id: number,
   name: string,
   level: number,
   money: number,
   image: string,
+}
+
+enum EStatus {
+  IN_PROGRESS = 'INPROGRESS',
+  COMPLETED = 'COMPLETED',
 }
