@@ -7,6 +7,8 @@ import {ref} from "vue";
 import Staking from "@/components/Staking.vue";
 import Casino from "@/components/Casino.vue";
 import {useUserStore} from "@/store/userStore.ts";
+import axios from "axios";
+import {API_URL} from "@/main.ts";
 
 const tabMenu = ref([
   { label: 'Staking' },
@@ -16,6 +18,10 @@ const tabMenu = ref([
 
 const activeMenu = ref(0)
 const userStore = useUserStore()
+
+const getPrize = () => {
+  axios.get(`${API_URL}/prize`)
+}
 </script>
 
 <template>
@@ -33,7 +39,7 @@ const userStore = useUserStore()
        <img src="@/assets/img/gift.png" alt="gift">
        <h2 class="subtitle mb-3">Map of the day</h2>
        <p class="text mb-2">Open the gift and get one of the many prizes!</p>
-       <button class="btn">Open</button>
+       <button @click="getPrize" class="btn">Open</button>
      </div>
    </div>
    <Casino v-if="tabMenu[activeMenu].label === 'Casino'" />

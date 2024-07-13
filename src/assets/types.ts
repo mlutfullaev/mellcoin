@@ -56,7 +56,7 @@ export interface ITask {
   image: string,
 }
 
-export interface ICompletedTask {
+export interface IFullTask {
   id: number
   user_id: number
   task_id: number
