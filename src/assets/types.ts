@@ -16,6 +16,7 @@ export interface IStake {
   hold: number,
   min_amount: string,
   max_amount: string,
+  image: string,
 }
 
 export interface IActivatedStake {

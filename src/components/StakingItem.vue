@@ -13,7 +13,7 @@ defineEmits<{
 <template>
   <div class="staking-card">
     <div class="staking-card-content">
-      <img src="@/assets/icons/1-hour.svg" alt="staking">
+      <img :src="stake.image" alt="staking">
       <p class="text bold">{{stake.name}}</p>
       <span class="grey">Freeze under</span>
       <p class="text bold pink">
