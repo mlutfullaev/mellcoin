@@ -11,13 +11,13 @@ export const useUserStore = defineStore('user', () => {
 
   const getToken = async () => {
     const data = useWebApp().initDataUnsafe
-    console.log(data)
+    console.log(data.user?.id)
     // const data = mockUser
 
     await axios.post(`${API_URL}/auth/login`, {
-      id: data.id,
-      first_name: data.first_name,
-      last_name: data.last_name,
+      id: data.user?.id,
+      first_name: data.user?.first_name,
+      last_name: data.user?.last_name,
     })
       .then(res => {
         localStorage.setItem('token', res.data.data.token)
