@@ -1,9 +1,7 @@
 <script lang="ts" setup="">
-// import {useUserStore} from "@/store/userStore.ts";
-import {computed, onMounted, ref} from "vue";
+import {computed, ref} from "vue";
 import CircleImage from "@/components/CircleImage.vue";
 import LevelTask from "@/components/LevelTask.vue";
-import {ILevel} from "@/assets/types.ts";
 import {LevelTasks} from "@/assets/data.ts";
 import {useUserStore} from "@/store/userStore.ts";
 import {formatWithPrefix} from "@/assets/helpers.ts";
