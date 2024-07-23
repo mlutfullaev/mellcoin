@@ -1,17 +1,18 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-// import {useWebApp} from "vue-tg";
-import {mockUser} from "@/assets/data.ts";
+// import {mockUser} from "@/assets/data.ts";
 import axios from "axios";
 import {API_URL} from "@/main.ts";
 import {IUser} from "@/assets/types.ts";
+import {useWebApp} from "vue-tg";
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<IUser | null>(null)
 
   const getToken = async () => {
-    // const data = useWebApp().initDataUnsafe
-    const data = mockUser
+    const data = useWebApp().initDataUnsafe
+    console.log(data)
+    // const data = mockUser
 
     await axios.post(`${API_URL}/auth/login`, {
       id: data.id,
