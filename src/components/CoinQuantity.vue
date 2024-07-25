@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import {formatCoin, formatWithPrefix} from "../assets/helpers.ts";
+import {formatWithPrefix} from "../assets/helpers.ts";
 
 defineProps<{
   value?: number | string
