@@ -1,23 +1,25 @@
-import {defineStore} from "pinia";
-import {ref} from "vue";
+import { defineStore } from "pinia"
+import { ref } from "vue"
+import axios from "axios"
+import { API_URL } from "@/main.ts"
+import { IUser } from "@/assets/types.ts"
+import { useWebApp } from "vue-tg"
 // import {mockUser} from "@/assets/data.ts";
-import axios from "axios";
-import {API_URL} from "@/main.ts";
-import {IUser} from "@/assets/types.ts";
-import {useWebApp} from "vue-tg";
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<IUser | null>(null)
 
   const getToken = async () => {
-    const data = useWebApp().initDataUnsafe
-    console.log(data.user?.id)
-    // const data = mockUser
+    const { user } = useWebApp().initDataUnsafe
+    // const user = mockUser
+
+    if (!user) return
+    console.log(user)
 
     await axios.post(`${API_URL}/auth/login`, {
-      id: data.user?.id,
-      first_name: data.user?.first_name,
-      last_name: data.user?.last_name,
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
     })
       .then(res => {
         localStorage.setItem('token', res.data.data.token)

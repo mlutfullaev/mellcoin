@@ -7,7 +7,7 @@ import {formatWithPrefix} from "../assets/helpers.ts";
 
 const checking = ref(false)
 
-const link = 'https://t.me/mellcointestbot/start?ref=122'
+const link = `https://t.me/${import.meta.env.VITE_APP_BOT}/start?ref=122`
 
 const friendList = ref<IUser[]>([])
 
@@ -93,7 +93,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .friends-page {
-  padding: 0 16px 40px;
+  padding: 0 16px 90px;
 
   .cards {
     padding: 20px 0;

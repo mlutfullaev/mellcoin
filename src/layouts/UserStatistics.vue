@@ -2,14 +2,16 @@
 import Hint from "@/components/Hint.vue";
 import {useUserStore} from "@/store/userStore.ts";
 import {formatWithPrefix} from "../assets/helpers.ts";
+import {useWebApp} from "vue-tg";
 
 const userStore = useUserStore()
+const { user } = useWebApp().initDataUnsafe
 </script>
 
 <template>
 <div class="user-statistics">
-  <div class="avatar">
-    <i class="pi pi-user"></i>
+  <div class="avatar" :style="user?.photo_url ? `background-image: url(${user.photo_url})` : ''">
+    <i v-if="!user?.photo_url" class="pi pi-user"></i>
   </div>
   <div class="statistics">
     <div class="statistics-item">
@@ -44,11 +46,14 @@ const userStore = useUserStore()
   .avatar {
     border-radius: 12px;
     padding: 14px;
-    background: #5F507E;
+    background-color: #5F507E;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 52px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   .statistics {
     display: grid;
