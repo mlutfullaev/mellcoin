@@ -35,6 +35,11 @@ export const useUserStore = defineStore('user', () => {
       .then(res => {
         user.value = res.data.data
       })
+      .catch(e => {
+        if (e.response.data.message === 'Unauthenticated.') {
+          localStorage.removeItem('token')
+        }
+      })
   }
 
   const setUser = (userData: IUser) => {
