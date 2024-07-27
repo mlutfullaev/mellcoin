@@ -81,7 +81,7 @@ onMounted(() => {
        </p>
      </div>
    </div>
-   <div class="friends-notfound mb-4" v-else-if="!checking">
+   <div class="notfound mb-4" v-else-if="!checking">
      You haven't invited anyone yet
    </div>
    <div class="friends-buttons">
@@ -135,14 +135,6 @@ onMounted(() => {
       background: #B282FA;
       color: #fff;
     }
-  }
-  .friends-notfound {
-    background: #1E072F;
-    border-radius: 12px;
-    text-align: center;
-    padding: 30px 10px;
-    color: #9C9E9B;
-    font-size: 12px;
   }
   .friend-list {
     display: grid;

@@ -46,9 +46,6 @@ const spinWheel = async () => {
     const stopAngle = winningSegmentIndex * segmentAngle;
 
     console.log('winningItem', segments.value[winningSegmentIndex].name)
-    // console.log('winningSegmentIndex', winningSegmentIndex)
-    // console.log('segmentAngle', segmentAngle)
-    // console.log('stopAngle', stopAngle)
 
     const currentAngle = 360 - (angle.value % 360);
     const spins = (Math.floor(Math.random() * 5) + 5) * 360;

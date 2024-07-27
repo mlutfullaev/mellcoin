@@ -57,7 +57,7 @@ button {
   box-shadow: 0 -12px 20px 0 #B686FF1F;
   background: #170327;
   border-radius: 20px 20px 0 0;
-  padding: 16px 16px 80px;
+  padding: 16px 16px 90px;
 }
 
 .title {
@@ -142,4 +142,13 @@ button {
   &.error {
     border: 1px solid #7953ca;
   }
+}
+
+.notfound {
+  background: #1E072F;
+  border-radius: 12px;
+  text-align: center;
+  padding: 30px 10px;
+  color: #9C9E9B;
+  font-size: 12px;
 }

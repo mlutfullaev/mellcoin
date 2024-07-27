@@ -134,7 +134,8 @@ const timeLeft = computed(() => {
   </div>
   <Sidebar v-model:visible="stakeModal" position="bottom" style="height: auto">
     <CircleImage
-      image="@/assets/icons/1-hour.svg"
+      v-if="activeStake?.image"
+      :image="activeStake.image"
       :size="160"
       second-color="#26154A"
       first-color="#B282FA1A"
@@ -157,7 +158,8 @@ const timeLeft = computed(() => {
   </Sidebar>
   <Sidebar v-model:visible="activatedStakeModal" position="bottom" style="height: auto">
     <CircleImage
-      image="@/assets/icons/1-hour.svg"
+      v-if="activeActivatedStake?.stake_card.image"
+      :image="activeActivatedStake?.stake_card.image"
       :size="160"
       second-color="#26154A"
       first-color="#B282FA1A"

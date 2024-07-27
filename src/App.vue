@@ -12,8 +12,8 @@ onMounted(() => {
   levelsStore.getLevels()
 })
 </script>
+
 <template>
-<!--  <Header />-->
   <router-view v-if="userStore.user" />
   <Footer v-if="userStore.user" />
 </template>

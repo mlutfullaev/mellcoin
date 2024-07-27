@@ -56,7 +56,7 @@ const checkDailTask = (id: number) => {
      first-color="#B282FA1A"
    />
    <h1 class="title py-4">Earn more coins</h1>
-   <h2 class="subtitle">Daily tasks</h2>
+   <h2 class="subtitle" v-if="dailyTasks.length">Daily tasks</h2>
    <div
      v-if="dailyTasks.length"
      v-for="task in dailyTasks"
@@ -74,7 +74,7 @@ const checkDailTask = (id: number) => {
      </div>
      <i :class="`pi ${task.completed_at ? 'pi-check-circle' : 'pi-arrow-right'}`" />
    </div>
-   <h2 class="subtitle pt-5 pb-2">List of tasks</h2>
+   <h2 class="subtitle pt-5 pb-2" v-if="tasks.length">List of tasks</h2>
    <div
      class="small-card mb-2"
      v-for="task in tasks"
@@ -90,6 +90,9 @@ const checkDailTask = (id: number) => {
        </p>
      </div>
      <i :class="`pi ${task.completed_at ? 'pi-check-circle' : 'pi-arrow-right'}`"></i>
+   </div>
+   <div class="notfound mb-4" v-if="!tasks.length && !dailyTasks.length">
+     There is no task yet
    </div>
 <!--   <Sidebar v-model:visible="dailyRewardModal" position="bottom" style="height: auto">-->
 <!--     <CircleImage-->
