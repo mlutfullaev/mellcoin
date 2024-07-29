@@ -5,6 +5,7 @@ import PrimeVue from 'primevue/config';
 import 'primevue/resources/themes/aura-light-green/theme.css'
 import 'primeicons/primeicons.css'
 import './assets/styles/index.scss'
+import ToastService from 'primevue/toastservice';
 import {createPinia} from "pinia";
 import Tooltip from 'primevue/tooltip';
 import axios from "axios";
@@ -34,5 +35,6 @@ createApp(App)
   .use(router)
   .use(PrimeVue)
   .use(pinia)
+  .use(ToastService)
   .directive('tooltip', Tooltip)
   .mount('#app')

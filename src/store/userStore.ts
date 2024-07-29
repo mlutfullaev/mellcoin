@@ -4,10 +4,12 @@ import axios from "axios"
 import { API_URL } from "@/main.ts"
 import { IUser } from "@/assets/types.ts"
 import { useWebApp } from "vue-tg"
+import {useToast} from "primevue/usetoast";
 // import {mockUser} from "@/assets/data.ts";
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<IUser | null>(null)
+  const toast = useToast();
 
   const getToken = async () => {
     const { user } = useWebApp().initDataUnsafe
@@ -38,6 +40,7 @@ export const useUserStore = defineStore('user', () => {
       .catch(e => {
         if (e.response.data.message === 'Unauthenticated.') {
           localStorage.removeItem('token')
+          toast.add({ severity: 'error', summary: 'Success Message', detail: 'Message Content', life: 30000 });
         }
       })
   }
