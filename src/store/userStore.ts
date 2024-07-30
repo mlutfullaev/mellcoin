@@ -15,7 +15,10 @@ export const useUserStore = defineStore('user', () => {
   const fetchUserData = async () => {
     let token = localStorage.getItem('token')
     if (!token) {
-      if (!webAppData.user) return
+      if (!webAppData.user) {
+        toast.add({ severity: 'error', summary: 'Something went wrong', detail: 'Please try to reload the page', life: 5000 });
+        return
+      }
 
       await axios.post(`${API_URL}/auth/login`, {
         id: webAppData.user.id,
@@ -33,7 +36,7 @@ export const useUserStore = defineStore('user', () => {
       .catch(e => {
         if (e.response.data.message === 'Unauthenticated.') {
           localStorage.removeItem('token')
-          toast.add({ severity: 'error', summary: 'Success Message', detail: 'Message Content', life: 30000 });
+          fetchUserData()
         }
       })
   }

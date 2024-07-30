@@ -71,3 +71,27 @@
     display: none;
   }
 }
+.p-toast {
+  &-message {
+    padding: 5px;
+
+    &-content {
+      display: flex;
+      align-items: center;
+    }
+    &-error {
+      background: #FAFAFA;
+    }
+    &-icon {
+      display: none !important;
+    }
+    .buttoncontainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .p-toast-icon-close {
+      right: 0 !important
+    }
+  }
+}
