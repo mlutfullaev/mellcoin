@@ -94,7 +94,7 @@ onUnmounted(() => {
       <RouterLink to="/levels">
         Gold <i class="pi pi-arrow-right"></i>
       </RouterLink>
-      <p><span>Level </span>{{userStore.user?.level}}/{{levelsStore.levels.length}}</p>
+      <p><span>Level </span>{{userStore.user ? userStore.user.level + 1 : ''}}/{{levelsStore.levels.length}}</p>
     </div>
     <ProgressBar
       v-if="levelsStore.levels.length > Number(userStore.user?.level) + 1"

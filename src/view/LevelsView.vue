@@ -11,7 +11,7 @@ const userStore = useUserStore()
 const levelsStore = useLevelStore()
 
 // const userStore = useUserStore()
-const currentLevel = ref(userStore.user ? userStore.user.level  - 1 : 0)
+const currentLevel = ref(userStore.user ? userStore.user.level : 0)
 const userLevel = ref(0)
 
 const levelProgressText = computed(() => {

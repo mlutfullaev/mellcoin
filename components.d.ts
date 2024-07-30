@@ -7,19 +7,16 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    BaseModal: typeof import('./src/components/BaseModal.vue')['default']
     Button: typeof import('primevue/button')['default']
     Casino: typeof import('./src/components/Casino.vue')['default']
     CircleImage: typeof import('./src/components/CircleImage.vue')['default']
     CoinQuantity: typeof import('./src/components/CoinQuantity.vue')['default']
-    FreezingItem: typeof import('./src/components/StakingItem.vue')['default']
     Hint: typeof import('./src/components/Hint.vue')['default']
     LevelTask: typeof import('./src/components/LevelTask.vue')['default']
     ProgressBar: typeof import('primevue/progressbar')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('primevue/sidebar')['default']
-    SplitButton: typeof import('primevue/splitbutton')['default']
     Staking: typeof import('./src/components/Staking.vue')['default']
     StakingItem: typeof import('./src/components/StakingItem.vue')['default']
     TabMenu: typeof import('primevue/tabmenu')['default']

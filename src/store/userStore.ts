@@ -9,29 +9,22 @@ import {useToast} from "primevue/usetoast";
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<IUser | null>(null)
+  const webAppData = useWebApp().initDataUnsafe
   const toast = useToast();
 
-  const getToken = async () => {
-    const { user } = useWebApp().initDataUnsafe
-    // const user = mockUser
-
-    if (!user) return
-    console.log(user)
-
-    await axios.post(`${API_URL}/auth/login`, {
-      id: user.id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-    })
-      .then(res => {
-        localStorage.setItem('token', res.data.data.token)
-      })
-  }
-
   const fetchUserData = async () => {
-    const token = localStorage.getItem('token')
+    let token = localStorage.getItem('token')
     if (!token) {
-      await getToken()
+      if (!webAppData.user) return
+
+      await axios.post(`${API_URL}/auth/login`, {
+        id: webAppData.user.id,
+        first_name: webAppData.user.first_name,
+        last_name: webAppData.user.last_name,
+      })
+        .then(res => {
+          localStorage.setItem('token', res.data.data.token)
+        })
     }
     await axios.get(`${API_URL}/user/info`)
       .then(res => {
