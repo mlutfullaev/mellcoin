@@ -55,6 +55,7 @@ export interface ITask {
   reward: string,
   type: number,
   image: string,
+  is_active: boolean,
 }
 
 export interface IFullTask {
