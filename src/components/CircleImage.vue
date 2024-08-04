@@ -36,17 +36,30 @@ defineProps<{
   justify-content: center;
   margin: 10px auto;
 
+  @media (max-width: 320px) {
+    width: 120px !important;
+    height: 120px !important;
+  }
   > div {
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
 
+    @media (max-width: 320px) {
+      width: 100px !important;
+      height: 100px !important;
+    }
     > div {
       border-radius: 50%;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+
+      @media (max-width: 320px) {
+        width: 80px !important;
+        height: 80px !important;
+      }
     }
   }
 }

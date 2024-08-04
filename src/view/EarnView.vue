@@ -24,7 +24,7 @@ onMounted(async () => {
     .then(res => {
       dailyTask.value = res.data.data
     })
-  if (!dailyTask.value) {
+  if (!dailyTask.value || !dailyTask.value.task.is_active) {
     axios.get(`${API_URL}/task/daily_calendar`)
       .then(res => {
         calendarTasks.value = res.data.data
@@ -41,13 +41,26 @@ onMounted(async () => {
   }
 })
 
-const checkTask = (id: number) => {
-  axios.get(`${API_URL}/task/check/${id}`)
-    .then(res => {
-      const updatedTask = res.data.data as IFullTask
-      tasks.value = tasks.value.map(task => task.id === updatedTask.id ? updatedTask : task)
+const checkTask = (task: ITask) => {
+  let clickedTasksLS = localStorage.getItem('tasks')
+  let clickedTasks: string[] = []
+  if (clickedTasksLS) {
+    clickedTasks = JSON.parse(clickedTasksLS)
+  }
+
+  if (clickedTasks.includes(task.id.toString())) {
+    axios.get(`${API_URL}/task/check/${task.id}`)
+      .then(res => {
+          const updatedTask = res.data.data as IFullTask
+          tasks.value = tasks.value.map(task => task.id === updatedTask.id ? updatedTask : task)
+        }
+      )
+  } else {
+    if (task.approve_requirements.url) {
+      localStorage.setItem('tasks', JSON.stringify([...clickedTasks, task.id.toString()]))
+      window.location.href = task.approve_requirements.url
     }
-  )
+  }
 }
 
 const onConfirmReward = () => {
@@ -56,6 +69,7 @@ const onConfirmReward = () => {
   })
     .then(res => {
       userStore.fetchUserData()
+      console.log(res)
       dailyTask.value = res.data.data
       dailyRewardModal.value = false
     })
@@ -86,14 +100,14 @@ const onConfirmReward = () => {
          +{{Number(dailyTask.task.reward).toFixed()}}
        </p>
      </div>
-     <i class="pi pi-check-circle"></i>
+     <i class="pi pi-check-circle" :class="dailyTask.task.is_active ? 'pi-check-circle' : 'pi-arrow-right'"></i>
    </div>
    <h2 class="subtitle pt-5 pb-2" v-if="tasks.length">List of tasks</h2>
    <div
      class="small-card mb-2"
      v-for="task in tasks"
      :key="task.id"
-     @click="task.completed_at ? null : checkTask(task.task_id)"
+     @click="checkTask(task.task)"
    >
      <img class="small-card-img" :src="task.task.image" alt="task">
      <div>
@@ -116,7 +130,6 @@ const onConfirmReward = () => {
        first-color="#B282FA1A"
      />
      <h1 class="title pt-4 pb-2">Daily reward!</h1>
-     <p class="text pb-4">Accrue coins for logging into the game daily without skipping</p>
       <div class="prizes pb-4">
         <div
           class="prizes-item"
@@ -125,8 +138,10 @@ const onConfirmReward = () => {
           :class="{ claimed: task.is_active, active: index === calendarActiveTask}"
         >
           <p class="date">Day {{index + 1}}</p>
-          <img src="@/assets/icons/bitcoin.svg" alt="coin">
-          <p class="prize bold">{{Number(task.reward).toFixed()}}</p>
+          <p class="prize">
+            <img src="@/assets/icons/bitcoin.svg" alt="coin">
+            {{Number(task.reward).toFixed()}}
+          </p>
         </div>
       </div>
      <button @click="onConfirmReward" class="btn">Get reward!</button>
@@ -140,12 +155,12 @@ const onConfirmReward = () => {
 }
 .prizes {
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  grid-template-columns: repeat(5, 1fr);
 
   &-item {
     background: rgba(38, 21, 74, 1);
-    padding: 5px;
+    padding: 4px;
     border-radius: 10px;
     text-align: center;
     opacity: .7;
@@ -158,15 +173,16 @@ const onConfirmReward = () => {
       border: 1px solid #B282FA;
     }
     img {
-      width: 24px;
-      margin: 0 auto;
+      width: 14px;
     }
     .date {
-      font-size: 12px;
-      padding-bottom: 4px;
+      font-size: 9px;
     }
     .prize {
-      font-size: 16px
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
     }
   }
 }

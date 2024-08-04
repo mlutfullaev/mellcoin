@@ -86,6 +86,7 @@ const onPermanentlyResetFreeze = () => {
     stake_card_id: activeActivatedStake.value.stake_card_id
   })
     .then(() => {
+      activatedStakeList.value = activatedStakeList.value.filter(stake => stake.stake_card_id !== activeActivatedStake.value?.stake_card_id)
       activeActivatedStake.value = null
       resetModal.value = false
     })

@@ -51,6 +51,10 @@ button {
     color: #B282FA;
     background: transparent;
   }
+  @media (max-width: 320px) {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
 }
 
 .pink-content {

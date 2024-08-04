@@ -51,7 +51,9 @@ export interface ITask {
   name: string,
   recurrent: number,
   recurrent_rules: string,
-  approve_requirements: string,
+  approve_requirements: {
+    url?: string,
+  },
   reward: string,
   type: number,
   image: string,
@@ -75,7 +77,7 @@ export interface ILevel {
   image: string,
 }
 
-enum EStatus {
+export enum EStatus {
   IN_PROGRESS = 'INPROGRESS',
   COMPLETED = 'COMPLETED',
 }

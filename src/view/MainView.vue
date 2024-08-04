@@ -76,6 +76,7 @@ onMounted(() => {
   }
 })
 onUnmounted(() => {
+  console.log(true)
   postCoins()
 })
 </script>
