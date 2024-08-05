@@ -4,7 +4,7 @@ import CircleImage from "@/components/CircleImage.vue";
 import MainImage from '@/assets/img/main-circle.gif'
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import {useUserStore} from "@/store/userStore.ts";
-import {computed, onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import { uuid } from 'vue-uuid'
 import axios from "axios";
 import {API_URL} from "@/main.ts";
