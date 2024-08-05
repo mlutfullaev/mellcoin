@@ -4,7 +4,7 @@ import CircleImage from "@/components/CircleImage.vue";
 import MainImage from '@/assets/img/main-circle.gif'
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import {useUserStore} from "@/store/userStore.ts";
-import {computed, onMounted, onUnmounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import { uuid } from 'vue-uuid'
 import axios from "axios";
 import {API_URL} from "@/main.ts";
@@ -63,21 +63,17 @@ const postCoins = () => {
 
 const levelProgressPercent = computed(() => {
   const from = Number(userStore.user?.balance)
-  const to = Number(levelsStore.levels[Number(userStore.user?.level)].money)
+  const to = Number(levelsStore.levels[Number(userStore.user?.level) + 1].money)
   return from / to * 100
 })
 
 onMounted(() => {
-  const interval = setInterval(postCoins, 10000)
+  const interval = setInterval(postCoins, 5000)
 
   return () => {
     clearInterval(interval)
     postCoins()
   }
-})
-onUnmounted(() => {
-  console.log(true)
-  postCoins()
 })
 </script>
 
