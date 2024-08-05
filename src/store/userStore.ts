@@ -36,7 +36,7 @@ export const useUserStore = defineStore('user', () => {
       .catch(e => {
         if (e.response.data.message === 'Unauthenticated.') {
           localStorage.removeItem('token')
-          toast.add({ severity: 'error', summary: 'Something went wrong', detail: 'Please try to reload the page', life: 5000 });
+          fetchUserData()
         }
       })
   }
