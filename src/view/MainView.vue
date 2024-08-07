@@ -4,7 +4,7 @@ import CircleImage from "@/components/CircleImage.vue";
 import MainImage from '@/assets/img/main-circle.gif'
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import {useUserStore} from "@/store/userStore.ts";
-import {computed, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import { uuid } from 'vue-uuid'
 import axios from "axios";
 import {API_URL} from "@/main.ts";
@@ -75,6 +75,20 @@ onMounted(() => {
     postCoins()
   }
 })
+
+const handleBeforeUnload = () => {
+  const url = `${API_URL}/user/tap`;
+  const data = JSON.stringify({ count: earnedCoins.value });
+  navigator.sendBeacon(url, data);
+};
+
+onMounted(() => {
+  window.addEventListener('beforeunload', handleBeforeUnload);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', handleBeforeUnload);
+});
 </script>
 
 <template>

@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await axios.post(`${API_URL}/auth/login`, {
+      await axios.post(`${API_URL}/auth/login?${webAppData.start_param}`, {
         id: webAppData.user.id,
         first_name: webAppData.user.first_name,
         last_name: webAppData.user.last_name,
