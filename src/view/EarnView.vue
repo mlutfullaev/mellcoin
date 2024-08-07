@@ -24,7 +24,7 @@ onMounted(async () => {
     .then(res => {
       dailyTask.value = res.data.data
     })
-  if (!dailyTask.value || !dailyTask.value.task.is_active) {
+  if (!dailyTask.value?.task.is_active) {
     axios.get(`${API_URL}/task/daily_calendar`)
       .then(res => {
         calendarTasks.value = res.data.data
