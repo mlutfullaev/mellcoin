@@ -10,7 +10,7 @@ const userStore = useUserStore()
 const checking = ref(false)
 const copied = ref(false)
 
-const link = `https://t.me/${import.meta.env.VITE_APP_BOT}/melcoin?startapp=${userStore.user?.id}`
+const link = `https://t.me/${import.meta.env.VITE_APP_BOT}/melcoin?startapp=${userStore.webAppData.user?.id}`
 
 const friendList = ref<IUser[]>([])
 
