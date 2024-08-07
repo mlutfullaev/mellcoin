@@ -4,15 +4,23 @@ import axios from "axios";
 import {API_URL} from "@/main.ts";
 import {IUser} from "@/assets/types.ts";
 import {formatWithPrefix} from "../assets/helpers.ts";
+import {useUserStore} from "@/store/userStore.ts";
 
+const userStore = useUserStore()
 const checking = ref(false)
+const copied = ref(false)
 
-const link = `https://t.me/${import.meta.env.VITE_APP_BOT}/start?ref=122`
+const link = `https://t.me/${import.meta.env.VITE_APP_BOT}/melcoin?startapp=${userStore.user?.id}`
 
 const friendList = ref<IUser[]>([])
 
 const onCopy = () => {
   navigator.clipboard.writeText(link)
+  copied.value = true
+
+  setTimeout(() => {
+    copied.value = false
+  }, 2000)
 }
 
 const refresh = () => {
@@ -86,7 +94,13 @@ onMounted(() => {
    </div>
    <div class="friends-buttons">
       <a :href="`https://t.me/share/url?url=${link}`" class="btn">Invite a friend <i class="pi pi-users"></i></a>
-      <button class="btn" @click="onCopy"><i class="pi pi-copy"></i></button>
+      <button
+        class="btn"
+        @click="onCopy"
+        :disabled="copied"
+      >
+        <i :class="`pi ${copied ? 'pi-check' : 'pi-copy'}`"></i>
+      </button>
    </div>
  </div>
 </template>
