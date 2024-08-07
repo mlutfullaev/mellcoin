@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import axios from "axios";
 import {API_URL} from "@/main.ts";
 import {IUser} from "@/assets/types.ts";
@@ -10,12 +10,12 @@ const userStore = useUserStore()
 const checking = ref(false)
 const copied = ref(false)
 
-const link = `https://t.me/${import.meta.env.VITE_APP_BOT}/melcoin?startapp=${userStore.webAppData.user?.id}`
+const link = computed(() => `https://t.me/${import.meta.env.VITE_APP_BOT}/melcoin?startapp=${userStore.webAppData.user?.id}`)
 
 const friendList = ref<IUser[]>([])
 
 const onCopy = () => {
-  navigator.clipboard.writeText(link)
+  navigator.clipboard.writeText(link.value)
   copied.value = true
 
   setTimeout(() => {

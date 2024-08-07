@@ -20,10 +20,11 @@ export const useUserStore = defineStore('user', () => {
         return
       }
 
-      await axios.post(`${API_URL}/auth/login?${webAppData.start_param}`, {
+      await axios.post(`${API_URL}/auth/login`, {
         id: webAppData.user.id,
         first_name: webAppData.user.first_name,
         last_name: webAppData.user.last_name,
+        voxid: webAppData.start_param,
       })
         .then(res => {
           localStorage.setItem('token', res.data.data.token)
