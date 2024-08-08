@@ -93,7 +93,7 @@ onBeforeUnmount(() => {
 
 <template>
   <UserStatistics />
-  <div class="main-page pink-content">
+  <div class="main-page pink-content" v-if="userStore.user">
     <div
       v-for="text in floatingTexts"
       :key="text.id"
@@ -103,12 +103,12 @@ onBeforeUnmount(() => {
     </div>
     <div class="level">
       <RouterLink to="/levels">
-        {{levelsStore.levels[userStore.user?.level].label}} <i class="pi pi-arrow-right"></i>
+        {{levelsStore.levels[userStore.user.level].label}} <i class="pi pi-arrow-right"></i>
       </RouterLink>
-      <p><span>Уровень </span>{{userStore.user ? userStore.user.level + 1 : ''}}/{{levelsStore.levels.length}}</p>
+      <p><span>Уровень </span>{{userStore.user.level + 1}}/{{levelsStore.levels.length}}</p>
     </div>
     <ProgressBar
-      v-if="levelsStore.levels.length > Number(userStore.user?.level) + 1"
+      v-if="levelsStore.levels.length > Number(userStore.user.level) + 1"
       :showValue="false"
       :value="levelProgressPercent"
     />
@@ -120,7 +120,7 @@ onBeforeUnmount(() => {
         first-color="#090327"
         :click="onTap"
       />
-      <CoinQuantity :value="Number(userStore.user?.balance) + earnedCoins" />
+      <CoinQuantity :value="Number(userStore.user.balance) + earnedCoins" />
       <router-link to="/profile" class="btn">
         <img src="@/assets/icons/shuttle.svg" alt="shuttle">
         Буст
