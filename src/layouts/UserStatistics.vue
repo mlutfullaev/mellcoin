@@ -9,7 +9,6 @@ const photo = computed(() => userStore.webAppData.user?.photo_url)
 
 <template>
 <div class="user-statistics">
-  {{userStore.webAppData.user}}
   <div class="avatar" :style="photo ? `background-image: url(${photo})` : ''">
     <i v-if="!photo" class="pi pi-user"></i>
   </div>
