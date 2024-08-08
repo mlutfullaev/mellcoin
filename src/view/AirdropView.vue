@@ -6,19 +6,19 @@ import CircleImage from "@/components/CircleImage.vue";
 
 const features = [
   {
-    name: 'Exchanges negotiations',
+    name: 'Переговоры с биржами',
     status: true
   },
   {
-    name: 'Market maker negotiations',
+    name: 'Переговоры с маркет-мейкерами',
     status: true
   },
   {
-    name: 'Key partnerships are coming',
+    name: 'Намечаются ключевые партнерские отношения',
     status: true
   },
   {
-    name: 'Airdrop task list',
+    name: 'Список задач по десантированию',
     status: false
   },
 ]
@@ -32,7 +32,7 @@ const features = [
     second-color="#26154A"
     first-color="#B282FA1A"
   />
-  <h2 class="title py-2">Get ready, Airdrop is coming soon!</h2>
+  <h2 class="title py-2">Приготовьтесь, скоро состоится Airdrop!</h2>
   <p
     class="feature pt-1.5"
     v-for="feature in features"

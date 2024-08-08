@@ -75,6 +75,7 @@ export interface ILevel {
   level: number,
   money: number,
   image: string,
+  label: string
 }
 
 export enum EStatus {

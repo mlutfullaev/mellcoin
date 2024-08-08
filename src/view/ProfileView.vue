@@ -1,6 +1,5 @@
 <script lang="ts" setup="">
 import CoinQuantity from "@/components/CoinQuantity.vue";
-import Hint from "@/components/Hint.vue";
 import {onMounted, ref} from "vue";
 import CircleImage from "@/components/CircleImage.vue";
 import {useUserStore} from "@/store/userStore.ts";
@@ -34,10 +33,10 @@ const onBoost = () => {
 
 <template>
  <div class="profile-page">
-   <p class="balance text">Your balance</p>
+   <p class="balance text">Ваш баланс</p>
    <CoinQuantity :value="userStore.user?.balance" />
-   <p class="how-works text">How the improvement works <Hint text="it works simply" /></p>
-   <h2 class="subtitle" v-if="boosters.length">Boosters</h2>
+<!--   <p class="how-works text">Как работает это улучшение <Hint text="it works simply" /></p>-->
+   <h2 class="subtitle" v-if="boosters.length">Бусты</h2>
    <div class="boosters" v-if="boosters.length">
      <div
        class="small-card"
@@ -51,7 +50,7 @@ const onBoost = () => {
           <p class="text bold small-card-prize">
             <img src="@/assets/icons/bitcoin.svg" alt="coin">
             {{booster.initial_cost}}k
-            <span>• {{booster.max_lvl}} lvl</span>
+            <span>• {{booster.max_lvl}} уровень</span>
           </p>
        </div>
        <i class="pi pi-arrow-right"></i>
@@ -64,19 +63,19 @@ const onBoost = () => {
     style="height: auto"
   >
     <h1 class="title pb-2">{{boosters[activeBooster].name}}</h1>
-    <p class="text pb-4">Increase the amount of coins you can earn per tap</p>
+    <p class="text pb-4">Увеличьте количество монет, которые вы можете заработать за одно нажатие</p>
     <CircleImage
       :image="boosters[activeBooster].picture_url"
       :size="160"
       first-color="#B282FA2A"
       second-color="rgba(178, 130, 250, 0.1)"
     />
-    <p class="modal-hint">+1 coin for tap for level 5</p>
+    <p class="modal-hint">+1 монета за нажатие на 5-й уровень</p>
     <CoinQuantity
       :value="Number(boosters[activeBooster].initial_cost)"
       :lvl="boosters[activeBooster].max_lvl"
     />
-    <button @click="onBoost" class="btn">Go ahead</button>
+    <button @click="onBoost" class="btn">Получить</button>
   </Sidebar>
 </template>
 

@@ -3,7 +3,7 @@ import CircleImage from "@/components/CircleImage.vue";
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import {API_URL} from "@/main.ts";
-import {IFullTask, ITask} from "@/assets/types.ts";
+import {EStatus, IFullTask, ITask} from "@/assets/types.ts";
 import goldCoin from '@/assets/img/gold-coin.png'
 import calendar from '@/assets/img/calendar.png'
 import {useUserStore} from "@/store/userStore.ts";
@@ -22,9 +22,10 @@ onMounted(async () => {
     })
   await axios.get(`${API_URL}/task/daily`)
     .then(res => {
+      console.log(res.data.data)
       dailyTask.value = res.data.data
     })
-  if (!dailyTask.value?.task.is_active) {
+  if (dailyTask.value && !dailyTask.value.task.is_active) {
     axios.get(`${API_URL}/task/daily_calendar`)
       .then(res => {
         calendarTasks.value = res.data.data
@@ -67,10 +68,16 @@ const onConfirmReward = () => {
   axios.post(`${API_URL}/user/task/`, {
     id: calendarTasks.value[calendarActiveTask.value].id
   })
-    .then(res => {
+    .then(() => {
       userStore.fetchUserData()
-      console.log(res)
-      dailyTask.value = res.data.data
+      if (!dailyTask.value) return
+      dailyTask.value = {
+        ...dailyTask.value,
+        task: {
+          ...dailyTask.value?.task,
+          is_active: true
+        }
+      }
       dailyRewardModal.value = false
     })
 }
@@ -84,8 +91,8 @@ const onConfirmReward = () => {
      second-color="#26154A"
      first-color="#B282FA1A"
    />
-   <h1 class="title py-4">Earn more coins</h1>
-   <h2 class="subtitle" v-if="dailyTask">Daily tasks</h2>
+   <h1 class="title py-4">Зарабатывайте больше монет</h1>
+   <h2 class="subtitle" v-if="dailyTask">Ежедневные задачи</h2>
    <div
      v-if="dailyTask"
      class="small-card mt-2"
@@ -94,7 +101,7 @@ const onConfirmReward = () => {
    >
      <img class="small-card-img" src="@/assets/img/task.png" alt="task">
      <div>
-       <p class="text small-card-name">Daily Reward</p>
+       <p class="text small-card-name">Ежедневная награда</p>
        <p class="text bold small-card-prize">
          <img src="@/assets/icons/bitcoin.svg" alt="coin">
          +{{Number(dailyTask.task.reward).toFixed()}}
@@ -102,7 +109,7 @@ const onConfirmReward = () => {
      </div>
      <i class="pi pi-check-circle" :class="dailyTask.task.is_active ? 'pi-check-circle' : 'pi-arrow-right'"></i>
    </div>
-   <h2 class="subtitle pt-5 pb-2" v-if="tasks.length">List of tasks</h2>
+   <h2 class="subtitle pt-5 pb-2" v-if="tasks.length">Список задач</h2>
    <div
      class="small-card mb-2"
      v-for="task in tasks"
@@ -117,10 +124,10 @@ const onConfirmReward = () => {
          +{{Number(task.task.reward).toFixed()}}
        </p>
      </div>
-     <i :class="`pi ${task.completed_at ? 'pi-check-circle' : 'pi-arrow-right'}`"></i>
+     <i :class="`pi ${task.status === EStatus.COMPLETED ? 'pi-check-circle' : 'pi-arrow-right'}`"></i>
    </div>
    <div class="notfound mb-4" v-if="!tasks.length && !dailyTask">
-     There is no task yet
+     Пока нет никакой задачи
    </div>
    <Sidebar v-model:visible="dailyRewardModal" position="bottom" style="height: auto">
      <CircleImage
@@ -129,7 +136,7 @@ const onConfirmReward = () => {
        second-color="#26154A"
        first-color="#B282FA1A"
      />
-     <h1 class="title pt-4 pb-2">Daily reward!</h1>
+     <h1 class="title pt-4 pb-2">Ежедневная награда!</h1>
       <div class="prizes pb-4">
         <div
           class="prizes-item"
@@ -144,7 +151,7 @@ const onConfirmReward = () => {
           </p>
         </div>
       </div>
-     <button @click="onConfirmReward" class="btn">Get reward!</button>
+     <button @click="onConfirmReward" class="btn">Получи награду!</button>
    </Sidebar>
  </div>
 </template>

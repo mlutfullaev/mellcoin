@@ -6,23 +6,23 @@
  <footer>
     <RouterLink to="/">
       <img src="@/assets/icons/footer/exchange.svg" alt="exchange">
-      Exchange
+      Главная
     </RouterLink>
     <RouterLink to="/mine">
       <img src="@/assets/icons/footer/bitcoin-mining.svg" alt="mining">
-      Mine
+      Майнинг
     </RouterLink>
     <RouterLink to="/friends">
       <img src="@/assets/icons/footer/friends.svg" alt="friends">
-      Friends
+      Друзья
     </RouterLink>
     <RouterLink to="/earn">
       <img src="@/assets/icons/footer/earning.svg" alt="earning">
-      Earn
+      Заработать
     </RouterLink>
     <RouterLink to="/roadmap">
       <img src="@/assets/icons/footer/airdrop.svg" alt="airdrop">
-      RoadMap
+      Airdrop
     </RouterLink>
  </footer>
 </template>
@@ -45,7 +45,7 @@ footer {
   margin: 0 auto;
 
   a {
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 400;
     display: flex;
     flex-direction: column;

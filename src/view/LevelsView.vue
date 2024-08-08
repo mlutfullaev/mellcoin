@@ -69,9 +69,9 @@ const formatNumber = (num: number) => {
      <p class="bold">{{levelProgressText}}</p>
      <ProgressBar v-if="levelsStore.levels[currentLevel + 1]" :showValue="false" :value="levelProgressPercent" />
    </div>
-    <p v-else>frome {{ formatNumber(levelsStore.levels[currentLevel].money) }}</p>
+    <p v-else>с {{ formatNumber(levelsStore.levels[currentLevel].money) }}</p>
    <div class="assignments">
-     <h2 class="subtitle assignments-title">Level Assignments</h2>
+     <h2 class="subtitle assignments-title">Задачи уровня</h2>
      <LevelTask
        v-for="(task, i) in LevelTasks"
        :key="task.id"

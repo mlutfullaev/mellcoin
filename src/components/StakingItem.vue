@@ -15,7 +15,7 @@ defineEmits<{
     <div class="staking-card-content">
       <img :src="stake.image" alt="staking">
       <p class="text bold">{{stake.name}}</p>
-      <span class="grey">Freeze under</span>
+      <span class="grey">Заморозить под</span>
       <p class="text bold pink">
         <img src="@/assets/icons/discount.svg" alt="discount">
         {{stake.percent}}%
@@ -25,7 +25,7 @@ defineEmits<{
       @click="$emit('on-freeze')"
       class="staking-card-button"
       :class="{active: activated}"
-    >{{ activated ? 'Already active' : 'Activate' }}</button>
+    >{{ activated ? 'Уже активирован' : 'Активировать' }}</button>
   </div>
 </template>
 

@@ -13,9 +13,9 @@ import {IBoost} from "@/assets/types.ts";
 import {formatWithPrefix} from "../assets/helpers.ts";
 
 const tabMenu = ref([
-  { label: 'Staking' },
-  { label: 'Casino' },
-  { label: 'Cards' },
+  { label: 'Стейкинг' },
+  { label: 'Казино' },
+  { label: 'Карточки' },
 ])
 
 const activeMenu = ref(0)
@@ -57,23 +57,23 @@ onMounted(() => {
      :model="tabMenu"
      @tabChange="(value: any) => activeMenu = value.index"
    />
-   <Staking v-if="tabMenu[activeMenu].label === 'Staking'" />
-   <div class="cards" v-if="tabMenu[activeMenu].label === 'Cards'">
+   <Staking v-if="tabMenu[activeMenu].label === 'Стейкинг'" />
+   <div class="cards" v-if="tabMenu[activeMenu].label === 'Карточки'">
      <div class="cards-item" v-if="prize">
        <img src="@/assets/img/gift.png" alt="gift">
-       <h2 class="subtitle mb-2">You got a boost!</h2>
+       <h2 class="subtitle mb-2">Ты получил буст!</h2>
        <p class="text mb-2">{{prize.name}}</p>
-       <p class="text mb-1.5"><span class="grey">cost: </span>{{formatWithPrefix(prize.initial_cost)}}</p>
-       <p class="text"><span class="grey">max lvl: </span>{{prize.max_lvl}}</p>
+       <p class="text mb-1.5"><span class="grey">стоимость: </span>{{formatWithPrefix(prize.initial_cost)}}</p>
+       <p class="text"><span class="grey">макс. уровень: </span>{{prize.max_lvl}}</p>
      </div>
      <div class="cards-item" v-else>
        <img src="@/assets/img/gift.png" alt="gift">
-       <h2 class="subtitle mb-3">Map of the day</h2>
-       <p class="text mb-2">Open the gift and get one of the many prizes!</p>
-       <button @click="getPrize" class="btn">Open</button>
+       <h2 class="subtitle mb-3">Карта дня</h2>
+       <p class="text mb-2">Откройте подарок и получите один из многочисленных призов!</p>
+       <button @click="getPrize" class="btn">Открыть</button>
      </div>
    </div>
-   <Casino v-if="tabMenu[activeMenu].label === 'Casino'" />
+   <Casino v-if="tabMenu[activeMenu].label === 'Казино'" />
  </div>
 </template>
 

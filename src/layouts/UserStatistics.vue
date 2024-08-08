@@ -1,31 +1,30 @@
 <script lang="ts" setup="">
-import Hint from "@/components/Hint.vue";
 import {useUserStore} from "@/store/userStore.ts";
 import {formatWithPrefix} from "../assets/helpers.ts";
-import {useWebApp} from "vue-tg";
+import {computed} from "vue";
 
 const userStore = useUserStore()
-const { user } = useWebApp().initDataUnsafe
+const photo = computed(() => userStore.webAppData.user?.photo_url)
 </script>
 
 <template>
 <div class="user-statistics">
-  <div class="avatar" :style="user?.photo_url ? `background-image: url(${user.photo_url})` : ''">
-    <i v-if="!user?.photo_url" class="pi pi-user"></i>
+  {{userStore.webAppData.user}}
+  <div class="avatar" :style="photo ? `background-image: url(${photo})` : ''">
+    <i v-if="!photo" class="pi pi-user"></i>
   </div>
   <div class="statistics">
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/tap.svg" alt="coin">
-      <p><span>+{{Number(userStore.user?.level) + 2}}</span>/tap</p>
+      <p><span>+{{Number(userStore.user?.level) + 2}}</span>/клик</p>
     </div>
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/hours.svg" alt="icon">
-      <p><span>+{{userStore.user?.hour_profit}}</span>/tap</p>
-      <Hint text="This is tap" />
+      <p><span>+{{userStore.user?.hour_profit}}</span>/клик</p>
     </div>
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/level-up.svg" alt="level-up">
-      <p><span>{{formatWithPrefix(Number(userStore.user?.level_coints_cnt))}}</span>/lvl up</p>
+      <p><span>{{formatWithPrefix(Number(userStore.user?.level_coints_cnt))}}</span>/уровень</p>
     </div>
     <div class="statistics-item">
       <img src="@/assets/icons/statistics/rock.svg" alt="rock">

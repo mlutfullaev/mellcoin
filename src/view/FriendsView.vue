@@ -9,6 +9,7 @@ import {useUserStore} from "@/store/userStore.ts";
 const userStore = useUserStore()
 const checking = ref(false)
 const copied = ref(false)
+const showLevels = ref(false)
 
 const link = computed(() => `https://t.me/${import.meta.env.VITE_APP_BOT}/melcoin?startapp=${userStore.webAppData.user?.id}`)
 
@@ -41,31 +42,40 @@ onMounted(() => {
 
 <template>
  <div class="friends-page">
-  <h1 class="title pb-2">Invite your friends!</h1>
-   <p class="text pb-4 text-center grey">You and your friend will receive bonuses</p>
+  <h1 class="title pb-2">Пригласите своих друзей!</h1>
+   <p class="text pb-4 text-center grey">Вы и ваш друг будете получать бонусы</p>
    <div class="cards">
      <div class="cards-item">
        <img src="@/assets/img/1.png" alt="one">
-       <p class="text bold pt-3 pb-2">1 level</p>
+       <p class="text bold pt-3 pb-2">1 уровень</p>
        <p>
          <img src="@/assets/icons/discount.svg" alt="discount">
          <span class="bold pink">5%</span>
-         <span class="grey">from income</span>
+         <span class="grey">с дохода</span>
        </p>
      </div>
      <div class="cards-item">
        <img src="@/assets/img/2.png" alt="two">
-       <p class="text bold pt-3 pb-2">2 level</p>
+       <p class="text bold pt-3 pb-2">2 уровень</p>
        <p>
          <img src="@/assets/icons/discount.svg" alt="discount">
          <span class="bold pink">3%</span>
-         <span class="grey">from income</span>
+         <span class="grey">с дохода</span>
+       </p>
+     </div>
+     <div class="cards-item" v-if="showLevels">
+       <img src="@/assets/img/3.png" alt="two">
+       <p class="text bold pt-3 pb-2">3 уровень</p>
+       <p>
+         <img src="@/assets/icons/discount.svg" alt="discount">
+         <span class="bold pink">1%</span>
+         <span class="grey">с дохода</span>
        </p>
      </div>
    </div>
-   <button>More bonuses</button>
+   <button v-if="!showLevels" @click="showLevels = true">Больше бонусов</button>
    <h2 class="subtitle py-4 flex justify-between">
-     A list of your friends
+     Список ваших друзей
      <button @click="refresh" :class="{'spin': checking}"><i class="pi pi-refresh" /></button>
    </h2>
    <div
@@ -78,7 +88,7 @@ onMounted(() => {
        <div>
          <p class="text small-card-name">{{friend.first_name}}</p>
          <p class="text bold small-card-prize">
-           <span>{{friend.level}} lvl •</span>
+           <span>{{friend.level}} уровень •</span>
            <img src="@/assets/icons/bitcoin.svg" alt="coin">
            {{formatWithPrefix(friend.balance)}}
          </p>
@@ -90,10 +100,10 @@ onMounted(() => {
      </div>
    </div>
    <div class="notfound mb-4" v-else-if="!checking">
-     You haven't invited anyone yet
+     Вы еще никого не пригласили
    </div>
    <div class="friends-buttons">
-      <a :href="`https://t.me/share/url?url=${link}`" class="btn">Invite a friend <i class="pi pi-users"></i></a>
+      <a :href="`https://t.me/share/url?url=${link}`" class="btn">Пригласить друга <i class="pi pi-users"></i></a>
       <button
         class="btn"
         @click="onCopy"

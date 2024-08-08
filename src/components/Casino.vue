@@ -7,8 +7,8 @@ import {ICasino} from "@/assets/types.ts";
 import {useUserStore} from "@/store/userStore.ts";
 
 const amounts = [
-  1,
-  300,
+  1000,
+  3000,
   5000,
 ]
 const userStore = useUserStore()
@@ -66,7 +66,7 @@ const spinWheel = async () => {
 const spinError = computed(() => {
   if (!spinning.value) return ''
   if (activeAmount.value > Number(userStore.user?.balance)) {
-    return 'Insufficient funds'
+    return 'Недостаточно средств'
   }
 })
 </script>
@@ -103,7 +103,7 @@ const spinError = computed(() => {
     <p v-if="spinError" class="pb-4 text-center">{{spinError}}</p>
     <button @click="spinWheel" class="btn">
       <img src="@/assets/icons/twist.svg" alt="twist">
-      Twist
+      Крутить
     </button>
   </div>
 </template>

@@ -103,9 +103,9 @@ onBeforeUnmount(() => {
     </div>
     <div class="level">
       <RouterLink to="/levels">
-        Gold <i class="pi pi-arrow-right"></i>
+        {{levelsStore.levels[userStore.user?.level].label}} <i class="pi pi-arrow-right"></i>
       </RouterLink>
-      <p><span>Level </span>{{userStore.user ? userStore.user.level + 1 : ''}}/{{levelsStore.levels.length}}</p>
+      <p><span>Уровень </span>{{userStore.user ? userStore.user.level + 1 : ''}}/{{levelsStore.levels.length}}</p>
     </div>
     <ProgressBar
       v-if="levelsStore.levels.length > Number(userStore.user?.level) + 1"
@@ -123,7 +123,7 @@ onBeforeUnmount(() => {
       <CoinQuantity :value="Number(userStore.user?.balance) + earnedCoins" />
       <router-link to="/profile" class="btn">
         <img src="@/assets/icons/shuttle.svg" alt="shuttle">
-        Boost
+        Буст
       </router-link>
     </div>
   </div>

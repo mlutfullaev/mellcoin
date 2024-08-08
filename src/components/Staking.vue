@@ -148,14 +148,14 @@ const timeLeft = computed(() => {
       class="input my-4"
       :class="stakeError ? 'error' : ''"
       v-model="stakeAmount"
-      placeholder="Enter the amount to stake"
+      placeholder="Введите сумму для ставки"
     >
     <p
       v-if="stakeError"
       class="pb-4">
       {{stakeError}}
     </p>
-    <button @click="onActivate" class="btn">Activate</button>
+    <button @click="onActivate" class="btn">Активировать</button>
   </Sidebar>
   <Sidebar v-model:visible="activatedStakeModal" position="bottom" style="height: auto">
     <CircleImage
@@ -166,15 +166,15 @@ const timeLeft = computed(() => {
       first-color="#B282FA1A"
     />
     <h1 class="title pt-4 pb-2">{{activeActivatedStake?.stake_card.name}}</h1>
-    <p class="text pb-4">Заморозить под {{activeActivatedStake?.stake_card.percent}}%</p>
+    <p class="text pb-4">Заморозка под {{activeActivatedStake?.stake_card.percent}}%</p>
     <p class="grey pb-4">
-      There's still time left - <b class="pink">{{timeLeft}}</b>
+      Еще осталось - <b class="pink">{{timeLeft}}</b>
     </p>
     <p class="disabled-input input mb-4">
       <img src="@/assets/icons/bitcoin.svg" alt="coin">
       {{activeActivatedStake?.money}}
     </p>
-    <button @click="onResetFreeze" class="btn">Reset Freeze</button>
+    <button @click="onResetFreeze" class="btn">Деактивировать</button>
   </Sidebar>
   <Sidebar v-model:visible="resetModal" position="bottom" style="height: auto">
     <CircleImage
@@ -183,10 +183,10 @@ const timeLeft = computed(() => {
       second-color="#26154A"
       first-color="#B282FA1A"
     />
-    <h1 class="title pt-4 pb-2">Attention!</h1>
-    <p class="text pb-4">If you cancel the freeze at the moment, you will lose the money you earned:</p>
+    <h1 class="title pt-4 pb-2">Внимание!</h1>
+    <p class="text pb-4">Если вы отмените заморозку в данный момент, вы потеряете заработанные деньги</p>
     <CoinQuantity :value="Number(activeActivatedStake?.money)" />
-    <button @click="onPermanentlyResetFreeze" class="btn">Reset Freeze</button>
+    <button @click="onPermanentlyResetFreeze" class="btn">Деактивировать</button>
   </Sidebar>
 </template>
 
