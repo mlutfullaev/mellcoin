@@ -62,6 +62,7 @@ defineEmits<{
     border-radius: 8px;
     margin-top: 10px;
     width: 100%;
+    font-size: 12px;
 
     &.active {
       background: rgba(178, 130, 250, 0.4);
