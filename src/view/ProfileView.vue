@@ -6,12 +6,10 @@ import {useUserStore} from "@/store/userStore.ts";
 import {IBoost} from "@/assets/types.ts";
 import axios from "axios";
 import {API_URL} from "@/main.ts";
-import {useToast} from "primevue/usetoast";
 
 const boosterModal = ref(false)
 const boosters = ref<IBoost[]>([])
 const activeBooster = ref(0)
-const toast = useToast()
 const userStore = useUserStore()
 
 onMounted(() => {
