@@ -1,8 +1,6 @@
 <script lang="ts" setup="">
 import {computed, ref} from "vue";
 import CircleImage from "@/components/CircleImage.vue";
-import LevelTask from "@/components/LevelTask.vue";
-import {LevelTasks} from "@/assets/data.ts";
 import {useUserStore} from "@/store/userStore.ts";
 import {formatWithPrefix} from "@/assets/helpers.ts";
 import {useLevelStore} from "@/store/levelStore.ts";
