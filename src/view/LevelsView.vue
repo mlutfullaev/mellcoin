@@ -70,18 +70,6 @@ const formatNumber = (num: number) => {
      <ProgressBar v-if="levelsStore.levels[currentLevel + 1]" :showValue="false" :value="levelProgressPercent" />
    </div>
     <p v-else>с {{ formatNumber(levelsStore.levels[currentLevel].money) }}</p>
-   <div class="assignments">
-     <h2 class="subtitle assignments-title">Задачи уровня</h2>
-     <LevelTask
-       v-for="(task, i) in LevelTasks"
-       :key="task.id"
-       :title="task.name"
-       :prize="26653"
-       :queue="i + 1"
-       :completed="false"
-       :img="levelsStore.levels[currentLevel].image"
-     />
-   </div>
  </div>
 </template>
 
