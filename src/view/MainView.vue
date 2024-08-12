@@ -4,7 +4,7 @@ import CircleImage from "@/components/CircleImage.vue";
 import MainImage from '@/assets/img/main-circle.gif'
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import {useUserStore} from "@/store/userStore.ts";
-import {computed, onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import { uuid } from 'vue-uuid'
 import axios from "axios";
 import {API_URL} from "@/main.ts";
@@ -77,17 +77,17 @@ onMounted(() => {
 })
 
 const handleBeforeUnload = () => {
-  const url = `${API_URL}/user/tap`;
-  const data = JSON.stringify({ count: earnedCoins.value });
-  navigator.sendBeacon(url, data);
+  if (!earnedCoins.value) return
+  localStorage.setItem('opened_count', earnedCoins.value + '')
 };
 
 onMounted(() => {
-  window.addEventListener('beforeunload', handleBeforeUnload);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('beforeunload', handleBeforeUnload);
+  const lsCount = Number(localStorage.getItem('opened_count'))
+  if (lsCount) {
+    earnedCoins.value = lsCount
+  }
+  localStorage.removeItem('opened_count')
+  window.onbeforeunload = handleBeforeUnload;
 });
 </script>
 
