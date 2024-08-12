@@ -79,6 +79,7 @@ onMounted(() => {
 const handleBeforeUnload = () => {
   if (!earnedCoins.value) return
   localStorage.setItem('opened_count', earnedCoins.value + '')
+  window.removeEventListener('beforeunload', handleBeforeUnload)
 };
 
 onMounted(() => {
@@ -87,7 +88,7 @@ onMounted(() => {
     earnedCoins.value = lsCount
   }
   localStorage.removeItem('opened_count')
-  window.onbeforeunload = handleBeforeUnload;
+  window.addEventListener('beforeunload', handleBeforeUnload)
 });
 </script>
 
