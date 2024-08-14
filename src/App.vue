@@ -14,9 +14,9 @@ const appTheme = useWebAppTheme()
 onMounted(() => {
   userStore.fetchUserData()
   levelsStore.getLevels()
-  appTheme.setBackgroundColor('bg_color')
+  appTheme.setBackgroundColor('#090327')
   appTheme.setHeaderColor('#090327')
-  postEvent('web_app_set_header_color', { color_key: 'bg_color' });
+  // postEvent('web_app_set_header_color', { color_key: 'bg_color' });
   postEvent('web_app_setup_swipe_behavior', {allow_vertical_swipe: false})
 })
 </script>
