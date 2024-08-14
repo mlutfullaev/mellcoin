@@ -114,7 +114,7 @@ const onConfirmReward = () => {
      class="small-card mb-2"
      v-for="task in tasks"
      :key="task.id"
-     @click="checkTask(task.task)"
+     @click="task.status !== EStatus.COMPLETED ? checkTask(task.task) : null"
    >
      <img class="small-card-img" :src="task.task.image" alt="task">
      <div>
