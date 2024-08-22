@@ -5,13 +5,11 @@ defineProps<{
   firstColor: string,
   secondColor: string,
   image: string,
-  click?: (event: TouchEvent | MouseEvent) => void
 }>()
 </script>
 
 <template>
 <div
-  @click="click"
   class="circle-image"
   :style="{
     width: size + 'px',

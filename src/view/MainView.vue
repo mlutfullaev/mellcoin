@@ -1,54 +1,16 @@
 <script lang="ts" setup="">
 import UserStatistics from "@/layouts/UserStatistics.vue";
-import CircleImage from "@/components/CircleImage.vue";
-import MainImage from '@/assets/img/main-circle.gif'
 import CoinQuantity from "@/components/CoinQuantity.vue";
 import {useUserStore} from "@/store/userStore.ts";
 import {computed, onMounted, ref} from "vue";
-import { uuid } from 'vue-uuid'
 import axios from "axios";
 import {API_URL} from "@/main.ts";
 import {useLevelStore} from "@/store/levelStore.ts";
+import MainClicker from "@/components/MainClicker.vue";
 
-interface FloatingText {
-  x: number;
-  y: number;
-  id: string
-  message: string;
-}
 const userStore = useUserStore();
 const levelsStore = useLevelStore();
-const floatingTexts = ref<FloatingText[]>([]);
 const earnedCoins = ref(0)
-
-const onTap = (event: TouchEvent | MouseEvent) => {
-  const coin = Number(userStore.user?.level) + 2
-  const message = '+' + coin
-  const newText: FloatingText = {
-    x: 0,
-    y: 0,
-    id: uuid.v1(),
-    message,
-  }
-
-  if (event instanceof MouseEvent) {
-    newText.x = event.clientX
-    newText.y = event.clientY
-  } else if (event instanceof TouchEvent) {
-    const touch = event.touches[0]
-    const rect = (event.target as HTMLElement).getBoundingClientRect()
-    newText.x = touch.clientX + rect.left
-    newText.y = touch.clientY + rect.top
-  }
-
-  floatingTexts.value.push(newText)
-
-  earnedCoins.value += coin
-
-  setTimeout(() => {
-    floatingTexts.value = floatingTexts.value.filter(text => text.id !== newText.id)
-  }, 2000)
-};
 
 const postCoins = () => {
   if (!earnedCoins.value) return
@@ -75,36 +37,11 @@ onMounted(() => {
     postCoins()
   }
 })
-
-const handleBeforeUnload = () => {
-  if (!earnedCoins.value) {
-    localStorage.removeItem('opened_count')
-  } else {
-    localStorage.setItem('opened_count', earnedCoins.value + '')
-  }
-  window.removeEventListener('beforeunload', handleBeforeUnload)
-};
-
-onMounted(() => {
-  const lsCount = Number(localStorage.getItem('opened_count'))
-  if (lsCount) {
-    earnedCoins.value = lsCount
-  }
-  localStorage.removeItem('opened_count')
-  window.addEventListener('beforeunload', handleBeforeUnload)
-});
 </script>
 
 <template>
   <UserStatistics />
   <div class="main-page pink-content" v-if="userStore.user">
-    <div
-      v-for="text in floatingTexts"
-      :key="text.id"
-      class="floating-text"
-      :style="{ top: `${text.y}px`, left: `${text.x}px` }">
-      {{ text.message }}
-    </div>
     <div class="level">
       <RouterLink to="/levels">
         {{levelsStore.levels[userStore.user.level].label}} <i class="pi pi-arrow-right"></i>
@@ -117,13 +54,7 @@ onMounted(() => {
       :value="levelProgressPercent"
     />
     <div class="content">
-      <CircleImage
-        :image="MainImage"
-        :size="300"
-        second-color="#26154A"
-        first-color="#090327"
-        :click="onTap"
-      />
+      <MainClicker @onTap="(value: number) => earnedCoins += value" />
       <CoinQuantity :value="Number(userStore.user.balance) + earnedCoins" />
       <router-link to="/profile" class="btn">
         <img src="@/assets/icons/shuttle.svg" alt="shuttle">
@@ -135,15 +66,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .main-page {
-  .floating-text {
-    position: absolute;
-    transform: translate(-50%, 0);
-    transition: all 2s ease-in-out;
-    animation: floating 2s;
-    pointer-events: none;
-    font-size: 25px;
-    font-weight: 700
-  }
   .level {
     display: flex;
     align-items: center;
@@ -174,14 +96,4 @@ onMounted(() => {
   }
 }
 
-@keyframes floating {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
-}
 </style>

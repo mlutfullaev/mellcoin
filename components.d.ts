@@ -13,6 +13,7 @@ declare module 'vue' {
     CoinQuantity: typeof import('./src/components/CoinQuantity.vue')['default']
     Hint: typeof import('./src/components/Hint.vue')['default']
     LevelTask: typeof import('./src/components/LevelTask.vue')['default']
+    MainClicker: typeof import('./src/components/MainClicker.vue')['default']
     ProgressBar: typeof import('primevue/progressbar')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
