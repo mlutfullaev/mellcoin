@@ -22,7 +22,6 @@ onMounted(async () => {
     })
   await axios.get(`${API_URL}/task/daily`)
     .then(res => {
-      console.log(res.data.data)
       dailyTask.value = res.data.data
     })
   if (dailyTask.value && !dailyTask.value.task.is_active) {
