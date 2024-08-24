@@ -48,7 +48,7 @@ const checkTask = (task: ITask) => {
     clickedTasks = JSON.parse(clickedTasksLS)
   }
 
-  if (clickedTasks.includes(task.id.toString())) {
+  if (clickedTasks.includes(task.approve_requirements.toString())) {
     axios.get(`${API_URL}/task/check/${task.id}`)
       .then(res => {
           const updatedTask = res.data.data as IFullTask
@@ -57,7 +57,7 @@ const checkTask = (task: ITask) => {
       )
   } else {
     if (task.approve_requirements.url) {
-      localStorage.setItem('tasks', JSON.stringify([...clickedTasks, task.id.toString()]))
+      localStorage.setItem('tasks', JSON.stringify([...clickedTasks, task.approve_requirements.toString()]))
       window.location.href = task.approve_requirements.url
     }
   }
