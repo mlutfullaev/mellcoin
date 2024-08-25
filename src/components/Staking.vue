@@ -58,11 +58,9 @@ const isActivatedStake = (id: number) => {
 
 const onActivate = () => {
   stakeSubmitted.value = true
-  if (!activeStake.value) return
 
-  if (stakeError.value) {
-    return
-  }
+  if (!activeStake.value) return
+  if (stakeError.value) return
 
   const data = {
     stake_card_id: activeStake.value.id,
@@ -155,7 +153,7 @@ const timeLeft = computed(() => {
       class="pb-4">
       {{stakeError}}
     </p>
-    <button @click="onActivate" class="btn">Активировать</button>
+    <button @click="onActivate" :disabled="stakeSubmitted" class="btn">{{stakeSubmitted ? 'Активация' : 'Активировать'}}</button>
   </Sidebar>
   <Sidebar v-model:visible="activatedStakeModal" position="bottom" style="height: auto">
     <CircleImage

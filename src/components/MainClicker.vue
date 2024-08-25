@@ -22,6 +22,7 @@ const userStore = useUserStore();
 const floatingTexts = ref<FloatingText[]>([]);
 
 const onTap = (event: TouchEvent) => {
+  event.preventDefault()
   const coin = Number(userStore.user?.level) + 2
   const touch = event.touches[0]
   const message = '+' + coin
@@ -57,7 +58,7 @@ watch(clicked, () => {
 
 <template>
   <div
-    @touchstart="onTap"
+    @touchstart.passive="onTap"
     class="circle-image"
     :class="clicked ? 'clicked' : ''"
     ref="circle"
