@@ -40,25 +40,17 @@ onMounted(async () => {
       })
   }
 })
-
-const checkTask = (task: ITask) => {
-  let clickedTasksLS = localStorage.getItem('tasks')
-  let clickedTasks: string[] = []
-  if (clickedTasksLS) {
-    clickedTasks = JSON.parse(clickedTasksLS)
-  }
-
-  if (clickedTasks.includes(task.approve_requirements.toString())) {
-    axios.get(`${API_URL}/task/check/${task.id}`)
+const handleTask = (task: IFullTask) => {
+  if (task.status === EStatus.IN_PROGRESS) {
+    axios.get(`${API_URL}/task/check/${task.task.id}`)
       .then(res => {
           const updatedTask = res.data.data as IFullTask
           tasks.value = tasks.value.map(task => task.id === updatedTask.id ? updatedTask : task)
         }
       )
   } else {
-    if (task.approve_requirements.url) {
-      localStorage.setItem('tasks', JSON.stringify([...clickedTasks, task.approve_requirements.toString()]))
-      window.location.href = task.approve_requirements.url
+    if (task.task.approve_requirements.url) {
+      window.location.href = task.task.approve_requirements.url
     }
   }
 }
@@ -113,7 +105,7 @@ const onConfirmReward = () => {
      class="small-card mb-2"
      v-for="task in tasks"
      :key="task.id"
-     @click="task.status !== EStatus.COMPLETED ? checkTask(task.task) : null"
+     @click="handleTask(task)"
    >
      <img class="small-card-img" :src="task.task.image" alt="task">
      <div>
