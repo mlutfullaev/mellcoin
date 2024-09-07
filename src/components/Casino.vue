@@ -5,6 +5,7 @@ import axios from "axios";
 import {API_URL} from "@/main.ts";
 import {ICasino} from "@/assets/types.ts";
 import {useUserStore} from "@/store/userStore.ts";
+import {useToast} from "primevue/usetoast";
 
 const amounts = [
   1000,
@@ -12,6 +13,7 @@ const amounts = [
   5000,
 ]
 const userStore = useUserStore()
+const toast = useToast()
 const segments = ref<ICasino[]>([])
 const activeAmount = ref(amounts[0])
 const spinning = ref(false)
@@ -56,6 +58,7 @@ const spinWheel = async () => {
     setTimeout(() => {
       spinning.value = false;
       userStore.setUser(res.data.data.user)
+      toast.add({ severity: 'success', detail: `Вам упало: ${segments.value[winningSegmentIndex].name}!`, life: 5000 });
     }, 5000);
   } catch (error) {
     console.error('Error spinning the wheel:', error);

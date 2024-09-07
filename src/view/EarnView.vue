@@ -7,6 +7,7 @@ import {EStatus, IFullTask, ITask} from "@/assets/types.ts";
 import goldCoin from '@/assets/img/gold-coin.png'
 import calendar from '@/assets/img/calendar.png'
 import {useUserStore} from "@/store/userStore.ts";
+import {useToast} from "primevue/usetoast";
 
 const userStore = useUserStore()
 const tasks = ref<IFullTask[]>([])
@@ -14,6 +15,8 @@ const dailyTask = ref<IFullTask | null>(null)
 const calendarTasks = ref<ITask[]>([])
 const calendarActiveTask = ref(0)
 const dailyRewardModal = ref(false)
+const loading = ref(false)
+const toast = useToast()
 
 onMounted(async () => {
   axios.get(`${API_URL}/user/task`)
@@ -46,6 +49,7 @@ const handleTask = (task: IFullTask) => {
       .then(res => {
           const updatedTask = res.data.data as IFullTask
           tasks.value = tasks.value.map(task => task.id === updatedTask.id ? updatedTask : task)
+          toast.add({ severity: 'success', detail: 'Задача выполнено!', life: 5000 });
         }
       )
   } else {
@@ -56,6 +60,7 @@ const handleTask = (task: IFullTask) => {
 }
 
 const onConfirmReward = () => {
+  loading.value = true
   axios.post(`${API_URL}/user/task/`, {
     id: calendarTasks.value[calendarActiveTask.value].id
   })
@@ -69,7 +74,9 @@ const onConfirmReward = () => {
           is_active: true
         }
       }
+      loading.value = false
       dailyRewardModal.value = false
+      toast.add({ severity: 'success', detail: 'Ежедневная награда получено!', life: 5000 });
     })
 }
 </script>
@@ -142,7 +149,7 @@ const onConfirmReward = () => {
           </p>
         </div>
       </div>
-     <button @click="onConfirmReward" class="btn">Получи награду!</button>
+     <button :disabled="loading" @click="onConfirmReward" class="btn">Получи награду!</button>
    </Sidebar>
  </div>
 </template>

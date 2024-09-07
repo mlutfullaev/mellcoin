@@ -9,8 +9,10 @@ import {useUserStore} from "@/store/userStore.ts";
 import {formatTime} from "@/assets/helpers.ts";
 import attention from "@/assets/icons/attention.svg";
 import CoinQuantity from "@/components/CoinQuantity.vue";
+import {useToast} from "primevue/usetoast";
 
 const userStore = useUserStore()
+const toast = useToast()
 const stakeAmount = ref('')
 const stakeSubmitted = ref(false)
 
@@ -70,6 +72,7 @@ const onActivate = () => {
     .then(res => {
       activatedStakeList.value.push(res.data.data)
       stakeModal.value = false
+      toast.add({ severity: 'success', detail: 'Стейк активирован!', life: 5000 });
     })
 }
 
@@ -87,6 +90,7 @@ const onPermanentlyResetFreeze = () => {
       activatedStakeList.value = activatedStakeList.value.filter(stake => stake.stake_card_id !== activeActivatedStake.value?.stake_card_id)
       activeActivatedStake.value = null
       resetModal.value = false
+      toast.add({ severity: 'success', detail: 'Стейк деактивирован!', life: 5000 });
     })
 }
 
@@ -103,10 +107,8 @@ const stakeError = computed(() => {
 
   const amount = Number(stakeAmount.value)
   const minAmount = Number(activeStake.value?.min_amount)
-  const maxAmount = Number(activeStake.value?.max_amount)
   if (!amount) return 'Please enter the amount'
   if (amount < minAmount) return `Minimum amount is ${minAmount}`
-  if (amount > maxAmount) return `Maximum amount is ${maxAmount}`
   if (amount > Number(userStore.user?.balance)) return 'Insufficient funds'
 })
 

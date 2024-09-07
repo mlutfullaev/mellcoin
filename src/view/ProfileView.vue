@@ -6,11 +6,14 @@ import {useUserStore} from "@/store/userStore.ts";
 import {IBoost} from "@/assets/types.ts";
 import axios from "axios";
 import {API_URL} from "@/main.ts";
+import {useToast} from "primevue/usetoast";
 
+const toast = useToast()
 const boosterModal = ref(false)
 const boosters = ref<IBoost[]>([])
 const activeBooster = ref(0)
 const userStore = useUserStore()
+const loading = ref(false)
 
 onMounted(() => {
   axios.get(`${API_URL}/boost`)
@@ -20,9 +23,12 @@ onMounted(() => {
 })
 
 const onBoost = () => {
+  loading.value = true
   axios.post(`${API_URL}/boost/${boosters.value[activeBooster.value].id}`)
     .then(() => {
       boosterModal.value = false
+      loading.value = false
+      toast.add({ severity: 'success', detail: 'Буст активирован!', life: 5000 });
     })
     .catch(err => {
       console.log(err)
@@ -32,7 +38,7 @@ const onBoost = () => {
 
 <template>
  <div class="profile-page">
-   <p class="balance text">Ваш баланс</p>
+   <p class="balance text pt-4">Ваш баланс</p>
    <CoinQuantity :value="userStore.user?.balance" />
 <!--   <p class="how-works text">Как работает это улучшение <Hint text="it works simply" /></p>-->
    <h2 class="subtitle" v-if="boosters.length">Бусты</h2>
@@ -74,7 +80,7 @@ const onBoost = () => {
       :value="Number(boosters[activeBooster].initial_cost)"
       :lvl="boosters[activeBooster].max_lvl"
     />
-    <button @click="onBoost" class="btn">Получить</button>
+    <button :disabled="loading" @click="onBoost" class="btn">Получить</button>
   </Sidebar>
 </template>
 
