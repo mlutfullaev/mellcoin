@@ -27,11 +27,13 @@ onMounted(async () => {
     .then(res => {
       dailyTask.value = res.data.data
     })
-  if (dailyTask.value && !dailyTask.value.task.is_active) {
+  // if (dailyTask.value && !dailyTask.value.task.is_active) {
     axios.get(`${API_URL}/task/daily_calendar`)
       .then(res => {
         calendarTasks.value = res.data.data
-        dailyRewardModal.value = true
+        if (!dailyTask.value?.task.is_active) {
+          dailyRewardModal.value = true
+        }
         let i = 0
         while (true) {
           if (!calendarTasks.value[i].is_active || i === calendarTasks.value.length - 1) {
@@ -41,7 +43,7 @@ onMounted(async () => {
           i++
         }
       })
-  }
+  // }
 })
 const handleTask = (task: IFullTask) => {
   if (task.status === EStatus.IN_PROGRESS) {
@@ -60,15 +62,19 @@ const handleTask = (task: IFullTask) => {
 }
 
 const onConfirmReward = () => {
+  if (dailyTask.value?.task.is_active) {
+    dailyRewardModal.value = false
+    return
+  }
   loading.value = true
   axios.post(`${API_URL}/user/task/`, {
     id: calendarTasks.value[calendarActiveTask.value].id
   })
-    .then(() => {
+    .then(({data}) => {
       userStore.fetchUserData()
       if (!dailyTask.value) return
       dailyTask.value = {
-        ...dailyTask.value,
+        ...data.data.value,
         task: {
           ...dailyTask.value?.task,
           is_active: true
@@ -95,6 +101,7 @@ const onConfirmReward = () => {
      v-if="dailyTask"
      class="small-card mt-2"
      style="cursor: auto;"
+     @click="dailyRewardModal = true"
      :key="dailyTask.task_id"
    >
      <img class="small-card-img" src="@/assets/img/task.png" alt="task">
@@ -134,13 +141,14 @@ const onConfirmReward = () => {
        second-color="#26154A"
        first-color="#B282FA1A"
      />
-     <h1 class="title pt-4 pb-2">Ежедневная награда!</h1>
+     <h1 class="title pt-4 pb-4">Ежедневная награда!</h1>
+     <p class="text pb-4" v-if="dailyTask?.task.is_active">Награда за сегодня уже получено</p>
       <div class="prizes pb-4">
         <div
           class="prizes-item"
           v-for="(task, index) in calendarTasks"
           :key="task.id"
-          :class="{ claimed: task.is_active, active: index === calendarActiveTask}"
+          :class="{ claimed: task.is_active, active: index === calendarActiveTask && !dailyTask?.task.is_active}"
         >
           <p class="date">Day {{index + 1}}</p>
           <p class="prize">
@@ -149,7 +157,7 @@ const onConfirmReward = () => {
           </p>
         </div>
       </div>
-     <button :disabled="loading" @click="onConfirmReward" class="btn">Получи награду!</button>
+     <button :disabled="loading" @click="onConfirmReward" class="btn">{{ dailyTask?.task.is_active ? 'Закрыть' : 'Получить награду!' }}</button>
    </Sidebar>
  </div>
 </template>
@@ -172,6 +180,7 @@ const onConfirmReward = () => {
 
     &.claimed {
       background: #B282FA;
+      opacity: 1;
     }
     &.active {
       opacity: 1;
